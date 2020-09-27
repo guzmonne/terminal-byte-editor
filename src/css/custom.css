@@ -1,7 +1,8 @@
 /* Variables
    ========================================================================== */
 :root {
-  --min-height: 5rem
+  --min-height: 5rem;
+  --background-color: #2B3134;
 }
 
 /* Base
@@ -9,6 +10,7 @@
 * {
   box-sizing: border-box;
   font-family: 'Roboto', sans-serif;
+  color: whitesmoke;
 }
 
 html, body {
@@ -43,15 +45,44 @@ main {
 /* Aside
    ========================================================================== */
 aside {
-  width: 40%;
-  background-color: red;
+  width: 60%;
+  background-color: var(--background-color);
+  padding: 1rem;
+}
+
+#commands .tp-btnv_b {
+  background-color: #AF5D63;
+  color: white;
+  width: 70%;
+  margin-left: 30%;
+}
+
+#commands .tp-btnv_b.remove {
+  background-color: #AF5D63;
+}
+
+#commands .tp-btnv_b.add {
+  background-color: #86A397;
+}
+
+/* Tag
+   ========================================================================== */
+.tag {
+  background-color: white;
+  color: black;
+  padding: 0 0.5rem;
+  border-radius: 1rem;
+}
+
+.tp-lblv_l > span {
+  margin-right: 1rem;
 }
 
 /* Iframe section
    ========================================================================== */
 section {
   width: 100%;
-  background-color: blue;
+  background-color: var(--background-color);
 }
 
 section iframe {
@@ -65,4 +96,16 @@ footer {
   background-color: magenta;
   min-height: var(--min-height);
   flex-shrink: 0;
+}
+
+/* Tweakpane overrides
+   ========================================================================== */
+.tp-lblv_v {
+  width: 70% !important;
+}
+
+textarea.tp-txtiv_i {
+  padding: 2px;
+  height: 3rem;
+  line-height: 1rem;
 }

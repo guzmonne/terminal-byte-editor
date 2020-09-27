@@ -29,14 +29,20 @@
   <header><h1>Terminal Byte Editor</h1></header>
   <main>
     <aside>
-      <h2>Configuration</h2>
+      <div id="commands">
+        <div class="tp-v tp-rotv tp-rotv-expanded">
+          <button class="tp-rotv_t">Commands<div class="tp-rotv_m"></div></button>
+        </div>
+      </div>
+      <div id="tweakpane"></div>
     </aside>
     <section>
-      <iframe src="http://127.0.0.1:1235" title="Terminal Byte"></iframe>
+      <iframe id="terminal-byte" src="" title="Terminal Byte"></iframe>
     </section>
   </main>
   <footer>Made with love by <a href="https://github.com/guzmonne">@guzmonne</a></footer>
   <!-- Add your site or application content here -->
+  <script src="https://cdn.jsdelivr.net/npm/tweakpane@1.5.5/dist/tweakpane.min.js"></script>
   <script src="js/plugins.js"></script>
   <script src="js/index.js"></script>
 

@@ -3,6 +3,8 @@ import App from './app.js';
 const app = window.app = new App();
 
 app.ready(() => {
+  app.$commands.appendChild(app.createCommandDiv(0, true));
+
   app.pane.addInput(app.params, 'size', { step: 1, });
   app.pane.addInput(app.params, 'minSize', { step: 1 });
   app.pane.addInput(app.params, 'maxSize', { step: 1 });

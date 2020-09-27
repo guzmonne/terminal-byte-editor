@@ -1,12 +1,13 @@
 exports = module.exports = App;
 
-const BASE_URL = 'http://127.0.0.1:1235';
+
 /**
  * @class
  * Main application global object.
  */
 function App() {
   const self = {
+    BASE_URL: 'http://127.0.0.1:1235',
     GRADIENTS: {
       random: 'random',
       vitalOcean: 'vitalOcean',
@@ -38,13 +39,16 @@ function App() {
       fit:         false,
       prompt:      false,
     },
+    $commands: document.getElementById('commands'),
+    $tweakpane: document.getElementById('tweakpane'),
+    $iframe: document.getElementById('terminal-byte'),
     ready,
-    createTerminalByteURL,
     setIframeURL,
+    createTerminalByteURL,
+    createCommandDiv,
+    createElementFromHTML,
   };
 
-  self.$tweakpane = document.getElementById('tweakpane');
-  self.$iframe = document.getElementById('terminal-byte');
   self.pane = new Tweakpane({ 
     title: 'Configuration',
     container: self.$tweakpane,
@@ -90,9 +94,9 @@ function App() {
    * ```
    */
   function createTerminalByteURL(overrides={}) {
-    const { padding, size, minSize, maxSize } = { ...self.params, overrides }
-    return BASE_URL + 
-      `/?padding=${ padding }` +
+    const { padding, size, minSize, maxSize } = { ...self.params, ...overrides }
+    return self.BASE_URL + 
+      `?padding=${ padding }` +
       `&size=${ size }` +
       `&minSize=${ minSize }` +
       `&maxSize=${ maxSize }`;
@@ -106,34 +110,62 @@ function App() {
     url || (url = self.createTerminalByteURL());
     self.$iframe.src = url;
   }
-
-  function createCommandDiv(index) {
-    const isLast = index === self.params.commands.length;
-
-    return `
-      <div class="tp-rotv_c" style="height: auto;">
-        <div class="tp-v tp-lblv tp-v-first">
-          <div class="tp-lblv_l"><span class="tag">${ '#' + index }</span>Command</div>
-          <div class="tp-lblv_v">
-            <div class="tp-v tp-txtiv tp-v-first">
-              <textarea class="tp-txtiv_i" type="text"></textarea>
-            </div>
-          </div>
-        </div>
-        <div class="tp-v tp-lblv">
-          <div class="tp-lblv_l"><span class="tag">${ '#' + index }</span>Output</div>
-          <div class="tp-lblv_v">
-            <div class="tp-v tp-txtiv tp-v-first">
-              <textarea class="tp-txtiv_i" type="text"></textarea>
-            </div>
-          </div>
-        </div>
-        <div class="tp-v tp-btnv tp-v-last">
-          <button class="tp-btnv_b ${ isLast ? 'add' : 'remove'}">
-            ${ isLast ? 'Add' : 'Remove' } command
-          </button>
-        </div>
+  /**
+   * Creates an HTML element `div` from a string.
+   * @param {string} htmlString - Source HTML string.
+   * @return {HTMLElement}
+   * 
+   * @example
+   *
+   * ```js
+   * const div = app.createElement('<div id="example"></div>');
+   * document.body.appendChild(div);
+   * // No error is thrown.
+   * ```
+   */
+  function createElementFromHTML(htmlString) {
+    var div = document.createElement('div');
+    div.innerHTML = htmlString.trim();
+    // Change this to div.childNodes to support multiple top-level nodes
+    return div.firstChild; 
+  }
+  /**
+   * Template for the `command` input.
+   * @param {number} index - Command index counting from 0.
+   * @param {boolean} [isLast=false] - Flag indicating if this is the last command.
+   * 
+   * @example
+   *
+   * ```js
+   * const commandDiv = app.createCommandDiv(1, true);
+   * document.body.innerHTML = commandDiv;
+   * ```
+   */
+  function createCommandDiv(index=0, isLast=false) {
+    const template = `
+<div class="tp-rotv_c" style="height: auto;">
+  <div class="tp-v tp-lblv tp-v-first">
+    <div class="tp-lblv_l"><span class="tag">${ '#' + index }</span>Command</div>
+    <div class="tp-lblv_v">
+      <div class="tp-v tp-txtiv tp-v-first">
+        <textarea class="tp-txtiv_i" type="text"></textarea>
       </div>
-    `;
+    </div>
+  </div>
+  <div class="tp-v tp-lblv">
+    <div class="tp-lblv_l"><span class="tag">${ '#' + index }</span>Output</div>
+    <div class="tp-lblv_v">
+      <div class="tp-v tp-txtiv tp-v-first">
+        <textarea class="tp-txtiv_i" type="text"></textarea>
+      </div>
+    </div>
+  </div>
+  <div class="tp-v tp-btnv tp-v-last">
+    <button class="tp-btnv_b ${ isLast ? 'add' : 'remove'}">
+      ${ isLast ? 'Add' : 'Remove' } command
+    </button>
+  </div>
+</div>`
+    return self.createElementFromHTML(template);
   }
 }

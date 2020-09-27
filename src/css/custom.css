@@ -65,6 +65,12 @@ aside {
   background-color: #86A397;
 }
 
+#commands textarea {
+  padding: 0 4px;
+  height: 3rem;
+  line-height: 1rem;
+}
+
 /* Tag
    ========================================================================== */
 .tag {
@@ -102,10 +108,4 @@ footer {
    ========================================================================== */
 .tp-lblv_v {
   width: 70% !important;
-}
-
-textarea.tp-txtiv_i {
-  padding: 2px;
-  height: 3rem;
-  line-height: 1rem;
 }

@@ -88,17 +88,16 @@ footer {
    ========================================================================== */
    
 .InputGroup {
-  padding-bottom: 0.4rem;
   transform: none;
   overflow: visible;
   transition: height .2s ease-in-out,opacity .2s linear .2s,padding .2s ease-in-out;
   background-color: var(--input-background-color);
   border-radius: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .InputGroup.InputGroup__opened {
   opacity: 1;
-  padding-bottom: 0.4rem;
   transform: none;
   overflow: visible;
   transition: height .2s ease-in-out,opacity .2s linear .2s,padding .2s ease-in-out;
@@ -177,8 +176,9 @@ footer {
    ========================================================================== */
 
 .Input {
-  align-items: center;
   display: flex;
+  align-items: center;
+  padding: 0.25rem 0;
 }
 
 .Input * {
@@ -199,23 +199,29 @@ footer {
 .Input label > span {
   color: white;
   background-color: var(--input-background-color);
-  padding: 0 0.5rem;
+  padding: 0.5rem;
   width: 3rem;
   border-radius: 1rem;
   margin-right: 0.5rem;
   text-align: center;
   font-size: 90%;
   line-height: 1.5rem;
+  max-height: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .Input .Input__container {
+  display: flex;
+  align-items: center;
   align-self: flex-start;
   flex-grow: 0;
   flex-shrink: 0;
   width: 60%;
 }
 
-.Input input,
+.Input input[type="text"],
 .Input textarea {
   font-size: 0.9rem;
   appearance: none;
@@ -233,6 +239,11 @@ footer {
   min-height: 2rem;
   width: 100%;
   padding: 0.2rem 0.4rem;
+}
+
+.Input input[type="checkbox"] {
+  transform: scale(1.3);
+  margin-top: 0.3rem;
 }
 
 /* CommandInput
@@ -290,5 +301,5 @@ button:focus, button:active {
 
 button.Refresh {
   width: 100%;
-  margin-top: 1rem;
+  margin-top: 0.5rem;
 }

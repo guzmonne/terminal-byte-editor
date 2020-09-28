@@ -15,16 +15,45 @@ function InputGroup({ title, children, name, isOpen, onToggle }) {
   );
 }
 
-function StringInput({ label, tag, value, onChange }) {
+function Input(props) {
+  const { label, children } = props;
   return (
     <div className="Input StringInput">
-      <label>{ tag !== undefined && <span>{tag}</span> }{ label }</label>
+      <label>{ label }</label>
       <div className="Input__container">
-        <textarea rows={value.split('\n').length}  type="text" onChange={ onChange } value={ value }></textarea>
+        { children }
       </div>
     </div>
   );
 }
+
+function StringInputLabel({ tag, label }) {
+  return <>{ tag !== undefined && <span>{tag}</span> }{ label }</>
+}
+
+function StringInput(props) {
+  const { onChange, value, multiline=true, tag, label } = props;
+  return (
+    <Input className="StringInput" {...props} label={ <StringInputLabel tag={ tag } label={label} /> }>
+      {multiline 
+        ? <textarea rows={value.split('\n').length} onChange={ onChange } value={ value }></textarea>
+        : <input type="text" onChange={ onChange } value={ value } />
+      }
+    </Input>
+  );
+}
+
+function BooleanInput(props) {
+  const { value, onChange, name } = props;
+  const handleOnChange = React.useCallback((e) => onChange(name, e.target.checked), [onChange, name]);
+  return (
+    <Input {...props}>
+      <input type="checkbox" checked={ value } onChange={ handleOnChange } />
+    </Input>
+  );
+}
+
+
 
 function CommandInput({ onChange, command, output, index}) {
   const handleCommandOnChange = React.useCallback((e) => onChange(index, [e.target.value, output]), [index, onChange, output]);
@@ -41,16 +70,25 @@ function CommandInput({ onChange, command, output, index}) {
 class App extends React.Component {
   constructor(props) {
     super(props);
+    const defaults = {
+      commands: [['echo "Hello, World!"', 'Hello, World!']],
+      padding: 1,
+      prompt: false,
+      highlight: false,
+    };
     this.state = {
-      commands: [['', '']],
-      url: process.env.BASE_URL || 'http://localhost:1235',
+      ...defaults,
+      url: this.createIframeURL(defaults),
       toggle: {
         commands: true,
+        configuration: true,
       }
     };
+    this.createIframeURL = this.createIframeURL.bind(this);
     this.onAdd = this.onAdd.bind(this);
     this.onRemove = this.onRemove.bind(this);
     this.onChangeCommand = this.onChangeCommand.bind(this);
+    this.onChangeBool = this.onChangeBool.bind(this);
     this.onRefreshIframeURL = this.onRefreshIframeURL.bind(this);
     this.onToggle = this.onToggle.bind(this);
   }
@@ -69,13 +107,21 @@ class App extends React.Component {
     this.setState({ commands: this.state.commands });
   }
 
-  onRefreshIframeURL() {
-    const { commands } = this.state;
+  onChangeBool(key, value) {
+    this.setState({[key]: value});
+  }
+
+  createIframeURL({ commands, prompt, highlight }) {
     const baseUrl = process.env.BASE_URL || 'http://localhost:1235';
-    const url = baseUrl +
+    return baseUrl +
       `?commands=${ commands.map(([command]) => utoa(command)).join(',').replace(/=/g, '') }` +
-      `&outputs=${ commands.map(([_, output]) => utoa(output)).join(',').replace(/=/g, '') }`
-    this.setState({ url });
+      `&outputs=${ commands.map(([_, output]) => utoa(output)).join(',').replace(/=/g, '') }` +
+      (prompt ? '&prompt=true' : '') +
+      (highlight ? '&highlight=true' : '')
+  }
+
+  onRefreshIframeURL() {
+    this.setState({ url: this.createIframeURL(this.state) });
   }
 
   onToggle(key) {
@@ -87,7 +133,8 @@ class App extends React.Component {
   }
 
   render() {
-    const { commands, url, toggle } = this.state;
+    const { commands, prompt, highlight, url, toggle } = this.state;
+    console.log(this.state);
     return (
       <React.Fragment>
         <header><h1>Terminal Byte Editor</h1></header>
@@ -108,6 +155,10 @@ class App extends React.Component {
                 <button onClick={this.onAdd} className="AddRemoveCommands__add">+</button>
                 <button onClick={this.onRemove} className="AddRemoveCommands__remove">-</button>
               </div>
+            </InputGroup>
+            <InputGroup title="Configuration" isOpen={ toggle.configuration } onToggle={ this.onToggle } name="configuration">
+              <BooleanInput label="Prompt" onChange={ this.onChangeBool } name="prompt" value={ prompt } />
+              <BooleanInput label="Highlight" onChange={ this.onChangeBool } name="highlight" value={ highlight } />
             </InputGroup>
             <button className="Refresh" onClick={this.onRefreshIframeURL} type="button">Refresh</button>
           </aside>

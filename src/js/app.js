@@ -44,9 +44,12 @@ function App() {
     $iframe: document.getElementById('terminal-byte'),
     ready,
     setIframeURL,
+    setCommands,
     createTerminalByteURL,
     createCommandDiv,
     createElementFromHTML,
+    onTextareaChange,
+    onCommandButtonClick,
   };
 
   self.pane = new Tweakpane({ 
@@ -110,6 +113,33 @@ function App() {
     url || (url = self.createTerminalByteURL());
     self.$iframe.src = url;
   }
+
+  function onTextareaChange(event) {
+    console.log(event);
+  }
+
+  function onCommandButtonClick(event) {
+    console.log(event);
+  }
+  /**
+   * Sets up the `commands` HTML elements and its event handlers.
+   * 
+   * @example
+   *
+   * ```js
+   * app.setCommands();
+   * ```
+   */
+  function setCommands() {
+    self.$commands.querySelectorAll('.tp-btnv_b')
+      .forEach(button => button.removeEventListener('click', self.onCommandButtonClick));
+    self.$commands.querySelectorAll('textarea')
+      .forEach(textarea => textarea.removeEventListener('change', self.onTextareaChange));
+    self.$commands.innerHTML = '';
+    self.params.commands.forEach((command, index) => {
+      self.$commands.appendChild(self.createCommandDiv({ command, index }));
+    });
+  }
   /**
    * Creates an HTML element `div` from a string.
    * @param {string} htmlString - Source HTML string.
@@ -131,8 +161,11 @@ function App() {
   }
   /**
    * Template for the `command` input.
-   * @param {number} index - Command index counting from 0.
-   * @param {boolean} [isLast=false] - Flag indicating if this is the last command.
+   * @param {Object} props - Template props.
+   * @param {number} props.index - Command index number.
+   * @param {string} props.command - Command textarea value.
+   * @param {string} props.output - Command output textarea value.
+   * @param {boolean} props.isLast - Flag that indicates if the command is the last.
    * 
    * @example
    *
@@ -141,14 +174,15 @@ function App() {
    * document.body.innerHTML = commandDiv;
    * ```
    */
-  function createCommandDiv(index=0, isLast=false) {
+  function createCommandDiv(props={}) {
+    const {index=0, command="", output="", isLast=false} = props;
     const template = `
 <div class="tp-rotv_c" style="height: auto;">
   <div class="tp-v tp-lblv tp-v-first">
     <div class="tp-lblv_l"><span class="tag">${ '#' + index }</span>Command</div>
     <div class="tp-lblv_v">
       <div class="tp-v tp-txtiv tp-v-first">
-        <textarea class="tp-txtiv_i" type="text"></textarea>
+        <textarea class="tp-txtiv_i" type="text" data-command data-index="${ index }">${ command }</textarea>
       </div>
     </div>
   </div>
@@ -156,7 +190,7 @@ function App() {
     <div class="tp-lblv_l"><span class="tag">${ '#' + index }</span>Output</div>
     <div class="tp-lblv_v">
       <div class="tp-v tp-txtiv tp-v-first">
-        <textarea class="tp-txtiv_i" type="text"></textarea>
+        <textarea class="tp-txtiv_i" type="text" data-output data-index="${ index }">${ output }</textarea>
       </div>
     </div>
   </div>
@@ -166,6 +200,10 @@ function App() {
     </button>
   </div>
 </div>`
-    return self.createElementFromHTML(template);
+    const element = self.createElementFromHTML(template);
+    element.querySelector('[data-command]').addEventListener('change', self.onTextareaChange);
+    element.querySelector('[data-output]').addEventListener('change', self.onTextareaChange);
+    element.querySelector('button').addEventListener('click', self.onCommandButtonClick);
+    return element;
   }
 }

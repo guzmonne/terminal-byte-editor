@@ -138,7 +138,7 @@ describe('App', () => {
     <div class="tp-lblv_l"><span class="tag">#10</span>Command</div>
     <div class="tp-lblv_v">
       <div class="tp-v tp-txtiv tp-v-first">
-        <textarea class="tp-txtiv_i" type="text"></textarea>
+        <textarea class="tp-txtiv_i" type="text" data-command="" data-index="10"></textarea>
       </div>
     </div>
   </div>
@@ -146,7 +146,7 @@ describe('App', () => {
     <div class="tp-lblv_l"><span class="tag">#10</span>Output</div>
     <div class="tp-lblv_v">
       <div class="tp-v tp-txtiv tp-v-first">
-        <textarea class="tp-txtiv_i" type="text"></textarea>
+        <textarea class="tp-txtiv_i" type="text" data-output="" data-index="10"></textarea>
       </div>
     </div>
   </div>
@@ -156,7 +156,7 @@ describe('App', () => {
     </button>
   </div>
 </div>`;
-      const actual = app.createCommandDiv(10);
+      const actual = app.createCommandDiv({ index: 10 });
       expect(actual.outerHTML).toBe(expected);
     });
 
@@ -166,7 +166,7 @@ describe('App', () => {
     <div class="tp-lblv_l"><span class="tag">#10</span>Command</div>
     <div class="tp-lblv_v">
       <div class="tp-v tp-txtiv tp-v-first">
-        <textarea class="tp-txtiv_i" type="text"></textarea>
+        <textarea class="tp-txtiv_i" type="text" data-command="" data-index="10"></textarea>
       </div>
     </div>
   </div>
@@ -174,7 +174,7 @@ describe('App', () => {
     <div class="tp-lblv_l"><span class="tag">#10</span>Output</div>
     <div class="tp-lblv_v">
       <div class="tp-v tp-txtiv tp-v-first">
-        <textarea class="tp-txtiv_i" type="text"></textarea>
+        <textarea class="tp-txtiv_i" type="text" data-output="" data-index="10"></textarea>
       </div>
     </div>
   </div>
@@ -184,9 +184,68 @@ describe('App', () => {
     </button>
   </div>
 </div>`;
-      const actual = app.createCommandDiv(10, true);
+      const actual = app.createCommandDiv({ index: 10, isLast: true });
       expect(actual.outerHTML).toBe(expected);
     });
+
+    test('should include the `command` value', () => {
+      const command = 'test';
+      const expected = `<div class="tp-rotv_c" style="height: auto;">
+  <div class="tp-v tp-lblv tp-v-first">
+    <div class="tp-lblv_l"><span class="tag">#10</span>Command</div>
+    <div class="tp-lblv_v">
+      <div class="tp-v tp-txtiv tp-v-first">
+        <textarea class="tp-txtiv_i" type="text" data-command="" data-index="10">${ command }</textarea>
+      </div>
+    </div>
+  </div>
+  <div class="tp-v tp-lblv">
+    <div class="tp-lblv_l"><span class="tag">#10</span>Output</div>
+    <div class="tp-lblv_v">
+      <div class="tp-v tp-txtiv tp-v-first">
+        <textarea class="tp-txtiv_i" type="text" data-output="" data-index="10"></textarea>
+      </div>
+    </div>
+  </div>
+  <div class="tp-v tp-btnv tp-v-last">
+    <button class="tp-btnv_b add">
+      Add command
+    </button>
+  </div>
+</div>`;
+      const actual = app.createCommandDiv({ index: 10, isLast: true, command });
+      expect(actual.outerHTML).toBe(expected);
+    });
+
+    test('should include the `output` value', () => {
+      const output = 'test';
+      const expected = `<div class="tp-rotv_c" style="height: auto;">
+  <div class="tp-v tp-lblv tp-v-first">
+    <div class="tp-lblv_l"><span class="tag">#10</span>Command</div>
+    <div class="tp-lblv_v">
+      <div class="tp-v tp-txtiv tp-v-first">
+        <textarea class="tp-txtiv_i" type="text" data-command="" data-index="10"></textarea>
+      </div>
+    </div>
+  </div>
+  <div class="tp-v tp-lblv">
+    <div class="tp-lblv_l"><span class="tag">#10</span>Output</div>
+    <div class="tp-lblv_v">
+      <div class="tp-v tp-txtiv tp-v-first">
+        <textarea class="tp-txtiv_i" type="text" data-output="" data-index="10">${ output }</textarea>
+      </div>
+    </div>
+  </div>
+  <div class="tp-v tp-btnv tp-v-last">
+    <button class="tp-btnv_b add">
+      Add command
+    </button>
+  </div>
+</div>`;
+      const actual = app.createCommandDiv({ index: 10, isLast: true, output });
+      expect(actual.outerHTML).toBe(expected);
+    });
+
   });
 
   describe('createElementFromHTML()', () => {
@@ -210,6 +269,19 @@ describe('App', () => {
       const actual = app.createElementFromHTML(htmlString);
       expect(actual.innerHTML).toBe(expected);
     });
+  });
+
+  describe('setCommands()', () => {
+    let app;
+
+    beforeEach(() => {
+      app = App();
+    });
+
+    test('should be defined', () => {
+      expect(app.setCommands).toBeDefined();
+    });
+
   });
 
 });

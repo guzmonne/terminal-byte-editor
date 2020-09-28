@@ -37,15 +37,6 @@ function CommandInput({ onChange, command, output, index}) {
   );
 }
 
-function AddRemoveCommands({onAdd, onRemove}) {
-  return (
-    <div className="AddRemoveCommands">
-      <button onClick={onAdd} className="AddRemoveCommands__add">+</button>
-      <button onClick={onRemove} className="AddRemoveCommands__remove">-</button>
-    </div>
-  );
-}
-
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -94,7 +85,10 @@ class App extends React.Component {
                   isLast={index === commands.length - 1}
                 />
               ))}
-              <AddRemoveCommands onAdd={this.onAdd} onRemove={this.onRemove} />
+              <div className="AddRemoveCommands">
+                <button onClick={this.onAdd} className="AddRemoveCommands__add">+</button>
+                <button onClick={this.onRemove} className="AddRemoveCommands__remove">-</button>
+              </div>
             </InputGroup>
           </aside>
           <section>

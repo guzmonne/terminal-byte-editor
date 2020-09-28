@@ -2,7 +2,16 @@
    ========================================================================== */
 :root {
   --min-height: 5rem;
-  --background-color: #2B3134;
+  --background-color: black;
+  --label-foreground-color: rgba(200,202,208,0.8);
+  --input-background-color: rgba(200,202,208,0.2);
+  --input-foreground-color: rgba(200,202,208,1);
+  --folder-background-color: rgba(200,202,208,0.1);
+  --folder-foreground-color: #c8cad0;
+  --button-background-color: #adafb8;
+  --button-background-color-active: #d6d7db;
+  --button-background-color-focus: #c8cad0;
+  --button-background-color-hover: #bbbcc4;
 }
 
 /* Base
@@ -13,19 +22,24 @@
   color: whitesmoke;
 }
 
+html {
+  font-size: 14px;
+}
+
 html, body {
   height: 100%;
 }
 
-body {
-  display: flex;
+main {
+  min-height: 100vh;
   flex-direction: column;
+  display: flex;
 }
 
 /* Header
    ========================================================================== */
 header {
-  background-color: cyan;
+  background-color: black;
   height: var(--min-height);
   flex-shrink: 0;
 }
@@ -36,8 +50,7 @@ header h1 {
 
 /* Main
    ========================================================================== */
-main {
-  background-color: black;
+article {
   display: flex;
   flex: 1 0 auto;
 }
@@ -45,43 +58,10 @@ main {
 /* Aside
    ========================================================================== */
 aside {
+  padding: 0;
   width: 60%;
   background-color: var(--background-color);
-  padding: 1rem;
-}
-
-#commands .tp-btnv_b {
-  background-color: #AF5D63;
-  color: white;
-  width: 70%;
-  margin-left: 30%;
-}
-
-#commands .tp-btnv_b.remove {
-  background-color: #AF5D63;
-}
-
-#commands .tp-btnv_b.add {
-  background-color: #86A397;
-}
-
-#commands textarea {
-  padding: 0 4px;
-  height: 3rem;
-  line-height: 1rem;
-}
-
-/* Tag
-   ========================================================================== */
-.tag {
-  background-color: white;
-  color: black;
-  padding: 0 0.5rem;
-  border-radius: 1rem;
-}
-
-.tp-lblv_l > span {
-  margin-right: 1rem;
+  padding: 0 1rem;
 }
 
 /* Iframe section
@@ -99,13 +79,185 @@ section iframe {
 /* Footer
    ========================================================================== */
 footer {
-  background-color: magenta;
+  background-color: black;
   min-height: var(--min-height);
   flex-shrink: 0;
 }
 
-/* Tweakpane overrides
+/* InputGroup
    ========================================================================== */
-.tp-lblv_v {
-  width: 70% !important;
+   
+.InputGroup {
+  opacity: 1;
+  padding-bottom: 0.4rem;
+  transform: none;
+  overflow: visible;
+  transition: height .2s ease-in-out,opacity .2s linear .2s,padding .2s ease-in-out;
+  background-color: var(--input-background-color);
+  border-radius: 0.5rem;
+}
+    
+.InputGroup * {
+  font-family: 'Fira Mono', monospace;
+}
+
+.InputGroup .InputGroup__header {
+  appearance: none;
+  background-color: transparent;
+  border-width: 0;
+  font-size: inherit;
+  font-weight: inherit;
+  margin: 0;
+  outline: none;
+  padding: 0;
+  background-color: var(--folder-background-color);
+  color: var(--folder-foreground-color);
+  cursor: pointer;
+  display: block;
+  height: 2.5rem;
+  line-height: 1.5rem;
+  overflow: hidden;
+  padding-left: 2rem;
+  position: relative;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+  transition: border-radius .2s ease-in-out .2s;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+}
+
+.InputGroup .InputGroup__header-chevron {
+  background: linear-gradient(to left, var(--folder-foreground-color), var(--folder-foreground-color) 2px, transparent 2px, transparent 4px, var(--folder-foreground-color) 4px);
+  border-radius: 2px;
+  bottom: 0;
+  content: '';
+  display: block;
+  height: 6px;
+  left: 0.8rem;
+  margin: auto;
+  position: absolute;
+  top: 0;
+  width: 6px;
+  transform: scale(1.8);
+}
+
+.InputGroup .InputGroup__container {
+  padding-top: 0.5rem;
+}
+
+/* Inputs
+   ========================================================================== */
+
+.Input {
+  align-items: center;
+  display: flex;
+}
+
+.Input * {
+  font-family: 'Fira Mono', monospace;
+}
+
+.Input label {
+  color: var(--label-foreground-color);
+  flex: 1;
+  hyphens: auto;
+  overflow: hidden;
+  padding-left: 0.4rem;
+  padding-right: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.Input label > span {
+  color: white;
+  background-color: var(--input-background-color);
+  padding: 0 0.5rem;
+  width: 3rem;
+  border-radius: 1rem;
+  margin-right: 0.5rem;
+  text-align: center;
+  font-size: 90%;
+  line-height: 1.5rem;
+}
+
+.Input .Input__container {
+  align-self: flex-start;
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 60%;
+}
+
+.Input input,
+.Input textarea {
+  font-size: 0.9rem;
+  appearance: none;
+  background-color: transparent;
+  border-width: 0;
+  margin: 0;
+  outline: none;
+  padding: 0;
+  background-color: var(--input-background-color);
+  border-radius: 0.2rem;
+  box-sizing: border-box;
+  color: var(--input-foreground-color);
+  height: 3rem;
+  line-height: 1rem;
+  min-width: 0;
+  width: 100%;
+  padding: 0.2rem 0.4rem;
+}
+
+/* CommandInput
+   ========================================================================== */
+
+.CommandInput {
+  padding: 0 0.4rem 0.5rem 0.4rem;
+}
+
+/* AddRemoveCommands
+   ========================================================================== */
+.AddRemoveCommands {
+  display: flex;
+  width: 60%;
+  margin-left: 40%;
+  font-size: 1.5rem;
+  align-items: center;
+}
+
+.AddRemoveCommands button {
+  margin-right: 0.3rem;
+}
+
+
+/* Buttons
+   ========================================================================== */
+
+button {
+  appearance: none;
+  background-color: transparent;
+  border-width: 0;
+  margin: 0;
+  outline: none;
+  padding: 0;
+  background-color: var(--button-background-color);
+  border-radius: 0.2rem;
+  cursor: pointer;
+  display: block;
+  font-weight: bold;
+  height: 2rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 2rem;
+  color: var(--background-color);
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+button:focus, button:active {
+  opacity: 0.8;
 }

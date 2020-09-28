@@ -6,16 +6,17 @@
   "author": "Guzman Monne <guzmonne@hotmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "parcel": "^1.12.4",
     "@babel/core": "^7.11.6",
     "@babel/preset-env": "^7.11.5",
+    "@babel/preset-react": "^7.10.4",
     "babel-jest": "^26.3.0",
-    "jest": "^26.4.2"
+    "jest": "^26.4.2",
+    "parcel-bundler": "^1.12.4"
   },
   "scripts": {
     "test": "jest --watch",
     "coverage": "jest --coverage",
-		"dev": "parcel src/index.html",
+    "dev": "parcel src/index.html",
     "build": "parcel build src/index.html",
     "postbuild": "cp src/browserconfig.xml src/favicon.ico src/humans.txt src/LICENSE.txt src/robots.txt dist"
   },
@@ -30,7 +31,19 @@
     "globals": {
       "NODE_ENV": "test"
     },
-    "moduleFileExtensions": ["js", "jsx"],
-    "moduleDirectories": ["node_modules"]
+    "moduleFileExtensions": [
+      "js",
+      "jsx"
+    ],
+    "moduleDirectories": [
+      "node_modules"
+    ]
+  },
+  "browser": {
+    "fs": false
+  },
+  "dependencies": {
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
   }
 }

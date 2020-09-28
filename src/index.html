@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" lang="">
+<html>
 
 <head>
   <meta charset="utf-8">
@@ -16,7 +16,7 @@
   <link rel="apple-touch-icon" href="icon.png">
   <!-- Place favicon.ico in the root directory -->
 
-  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Mono&family=Roboto&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/main.css">
@@ -26,19 +26,7 @@
 </head>
 
 <body>
-  <header><h1>Terminal Byte Editor</h1></header>
-  <main>
-    <aside>
-      <div id="commands" class="tp-v tp-rotv tp-rotv-expanded">
-        <button class="tp-rotv_t">Commands<div class="tp-rotv_m"></div></button>
-      </div>
-      <div id="tweakpane"></div>
-    </aside>
-    <section>
-      <iframe id="terminal-byte" src="" title="Terminal Byte"></iframe>
-    </section>
-  </main>
-  <footer>Made with love by <a href="https://github.com/guzmonne">@guzmonne</a></footer>
+  <main id="root"></main>
   <!-- Add your site or application content here -->
   <script src="https://cdn.jsdelivr.net/npm/tweakpane@1.5.5/dist/tweakpane.min.js"></script>
   <script src="js/plugins.js"></script>

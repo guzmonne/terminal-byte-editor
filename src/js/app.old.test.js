@@ -1,4 +1,4 @@
-const App = require('./app.js');
+const App = require('./app.old.js');
 
 describe('App', () => {
   beforeEach(() => {

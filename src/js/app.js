@@ -38,8 +38,7 @@ function CommandInput({ onChange, command, output, index}) {
 }
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
     this.state = {
       commands: [['', '']],
     };

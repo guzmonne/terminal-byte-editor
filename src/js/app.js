@@ -14,22 +14,25 @@ function InputGroup({ title, children }) {
   );
 }
 
-function StringInput({ label, tag, value, onChange=()=>{} }) {
+function StringInput({ label, tag, value, onChange }) {
   return (
     <div className="Input StringInput">
       <label>{ tag !== undefined && <span>{tag}</span> }{ label }</label>
       <div className="Input__container">
-        <textarea type="text" onChange={ onChange } value={ value }></textarea>
+        <textarea rows={value.split('\n').length}  type="text" onChange={ onChange } value={ value }></textarea>
       </div>
     </div>
   );
 }
 
-function CommandInput({ command, output, index, isLast=false}) {
+function CommandInput({ onChange, command, output, index}) {
+  const handleCommandOnChange = React.useCallback((e) => onChange(index, [e.target.value, output]), [index, onChange, output]);
+  const handleOutputOnChange = React.useCallback((e) => onChange(index, [command, e.target.value]), [index, onChange, command]);
+
   return (
     <div className="CommandInput">
-      <StringInput tag={`#${index}`} label="Command" value={command} />
-      <StringInput tag={`#${index}`} label="Output" value={output} />
+      <StringInput tag={`#${index}`} label="Command" value={command} onChange={handleCommandOnChange}/>
+      <StringInput tag={`#${index}`} label="Output" value={output} onChange={handleOutputOnChange}/>
     </div>
   );
 }
@@ -51,6 +54,7 @@ class App extends React.Component {
     };
     this.onAdd = this.onAdd.bind(this);
     this.onRemove = this.onRemove.bind(this);
+    this.onChangeCommand = this.onChangeCommand.bind(this);
   }
 
   onAdd() {
@@ -66,6 +70,12 @@ class App extends React.Component {
     });
   }
 
+  onChangeCommand(index, value) {
+    const newCommands = [...this.state.commands];
+    newCommands[index] = value;
+    this.setState({ commands: newCommands });
+  }
+
   render() {
     const { commands } = this.state;
     return (
@@ -78,6 +88,7 @@ class App extends React.Component {
                 <CommandInput 
                   key={index}
                   command={command}
+                  onChange={this.onChangeCommand}
                   output={output}
                   index={index}
                   isLast={index === commands.length - 1}

@@ -202,9 +202,9 @@ footer {
   border-radius: 0.2rem;
   box-sizing: border-box;
   color: var(--input-foreground-color);
-  height: 3rem;
-  line-height: 1rem;
+  line-height: 1.7;
   min-width: 0;
+  min-height: 2rem;
   width: 100%;
   padding: 0.2rem 0.4rem;
 }

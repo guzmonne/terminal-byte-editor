@@ -38,36 +38,43 @@ function CommandInput({ onChange, command, output, index}) {
 }
 
 class App extends React.Component {
-  constructor() {
+  constructor(props) {
+    super(props);
     this.state = {
       commands: [['', '']],
+      url: process.env.BASE_URL || 'http://localhost:1235',
     };
     this.onAdd = this.onAdd.bind(this);
     this.onRemove = this.onRemove.bind(this);
     this.onChangeCommand = this.onChangeCommand.bind(this);
+    this.onRefreshIframeURL = this.onRefreshIframeURL.bind(this);
   }
 
   onAdd() {
-    this.setState({
-      commands: [...this.state.commands, ["", ""]],
-    });
+    this.setState({ commands: [...this.state.commands, ["", ""]] });
   }
 
   onRemove() {
     if (this.state.commands.length === 1) { return; }
-    this.setState({
-      commands: this.state.commands.slice(0, -1)
-    });
+    this.setState({ commands: this.state.commands.slice(0, -1) });
   }
 
   onChangeCommand(index, value) {
-    const newCommands = [...this.state.commands];
-    newCommands[index] = value;
-    this.setState({ commands: newCommands });
+    this.state.commands[index] = value;
+    this.setState({ commands: this.state.commands });
+  }
+
+  onRefreshIframeURL() {
+    const { commands } = this.state;
+    const baseUrl = process.env.BASE_URL || 'http://localhost:1235';
+    const url = baseUrl +
+      `?commands=${ commands.map(([command]) => utoa(command)).join(',').replace(/=/g, '') }` +
+      `&outputs=${ commands.map(([_, output]) => utoa(output)).join(',').replace(/=/g, '') }`
+    this.setState({ url });
   }
 
   render() {
-    const { commands } = this.state;
+    const { commands, url } = this.state;
     return (
       <React.Fragment>
         <header><h1>Terminal Byte Editor</h1></header>
@@ -89,9 +96,10 @@ class App extends React.Component {
                 <button onClick={this.onRemove} className="AddRemoveCommands__remove">-</button>
               </div>
             </InputGroup>
+            <button className="Refresh" onClick={this.onRefreshIframeURL} type="button">Refresh</button>
           </aside>
           <section>
-            <iframe id="terminal-byte" src="http://localhost:1235" title="Terminal Byte"></iframe>
+            <iframe id="terminal-byte" src={url} title="Terminal Byte"></iframe>
           </section>
         </article>
         <footer>Made with love by <a href="https://github.com/guzmonne">@guzmonne</a></footer>
@@ -101,3 +109,21 @@ class App extends React.Component {
 }
 
 export default App;
+
+/**
+ * ASCII to Unicode (decode Base64 to original data)
+ * @param {string} b64
+ * @return {string}
+ */
+function atou(b64) {
+  return decodeURIComponent(escape(atob(b64)));
+}
+
+/**
+ * Unicode to ASCII (encode data to Base64)
+ * @param {string} data
+ * @return {string}
+ */
+function utoa(data) {
+  return btoa(unescape(encodeURIComponent(data)));
+}

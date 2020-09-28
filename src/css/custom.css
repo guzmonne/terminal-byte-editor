@@ -261,3 +261,8 @@ button:hover {
 button:focus, button:active {
   opacity: 0.8;
 }
+
+button.Refresh {
+  width: 100%;
+  margin-top: 1rem;
+}

@@ -88,6 +88,15 @@ footer {
    ========================================================================== */
    
 .InputGroup {
+  padding-bottom: 0.4rem;
+  transform: none;
+  overflow: visible;
+  transition: height .2s ease-in-out,opacity .2s linear .2s,padding .2s ease-in-out;
+  background-color: var(--input-background-color);
+  border-radius: 0.5rem;
+}
+
+.InputGroup.InputGroup__opened {
   opacity: 1;
   padding-bottom: 0.4rem;
   transform: none;
@@ -141,10 +150,27 @@ footer {
   top: 0;
   width: 6px;
   transform: scale(1.8);
+  transition: transform 0.2s linear;
+}
+
+.InputGroup.InputGroup__opened .InputGroup__header-chevron {
+  transform: scale(1.8) rotate(90deg);
+  transition: transform 0.2s linear;
 }
 
 .InputGroup .InputGroup__container {
+  padding: 0;
+  opacity: 0;
+  height: 0;
+  transition: none;
+}
+
+.InputGroup.InputGroup__opened .InputGroup__container {
   padding: 0.5rem;
+  opacity: 1;
+  height: auto;
+  padding: 0.5rem;
+  transition: opacity 0.2s linear;
 }
 
 /* Inputs

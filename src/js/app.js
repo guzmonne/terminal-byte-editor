@@ -1,9 +1,10 @@
 import React from 'react';
 
-function InputGroup({ title, children }) {
+function InputGroup({ title, children, name, isOpen, onToggle }) {
+  const handlOnToggle = React.useCallback(() => onToggle(name), [onToggle, name]);
   return (
-    <div className="InputGroup">
-      <button className="InputGroup__header">
+    <div className={`InputGroup ${isOpen === true ? 'InputGroup__opened' : ''}`}>
+      <button className="InputGroup__header" onClick={handlOnToggle}>
         { title }
         <div className="InputGroup__header-chevron"></div>
       </button>
@@ -43,11 +44,15 @@ class App extends React.Component {
     this.state = {
       commands: [['', '']],
       url: process.env.BASE_URL || 'http://localhost:1235',
+      toggle: {
+        commands: true,
+      }
     };
     this.onAdd = this.onAdd.bind(this);
     this.onRemove = this.onRemove.bind(this);
     this.onChangeCommand = this.onChangeCommand.bind(this);
     this.onRefreshIframeURL = this.onRefreshIframeURL.bind(this);
+    this.onToggle = this.onToggle.bind(this);
   }
 
   onAdd() {
@@ -73,14 +78,22 @@ class App extends React.Component {
     this.setState({ url });
   }
 
+  onToggle(key) {
+    const state = this.state.toggle[key];
+    this.setState({ toggle: {
+      ...this.state.toggle,
+      [key]: !state
+    }});
+  }
+
   render() {
-    const { commands, url } = this.state;
+    const { commands, url, toggle } = this.state;
     return (
       <React.Fragment>
         <header><h1>Terminal Byte Editor</h1></header>
         <article>
           <aside>
-            <InputGroup title="Commands">
+            <InputGroup title="Commands" isOpen={ toggle.commands } onToggle={ this.onToggle } name="commands">
               {commands.map(([command, output], index) => (
                 <CommandInput 
                   key={index}

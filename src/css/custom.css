@@ -56,13 +56,28 @@ article {
   flex: 1 0 auto;
 }
 
-/* Aside
-   ========================================================================== */
-form {
-  padding: 0;
+article .container {
+  position: relative;
+  height: calc(100vh - var(--min-height) * 2);
   width: 60%;
+}
+
+article .overflow {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex: 1 0 auto;
+  padding: 0;
   background-color: var(--background-color);
-  padding: 0 1rem;
+  padding: 0 2rem 0 1rem;
+  overflow: auto;
+}
+
+article .container form {
+  width: 100%;
 }
 
 /* Iframe section
@@ -70,13 +85,31 @@ form {
 section {
   width: 100%;
   background-color: var(--background-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-right: 1rem;
 }
 
 section iframe {
-  width: 100%;
   height: 100%;
   border: none;
   border-radius: 0.4rem;
+  flex: 1;
+}
+
+section .share {
+  display: flex;
+  align-items: center;
+  max-height: 2rem;
+  margin-top: 0.5rem;
+  flex: 1;
+  font-family: 'Fira Mono', monospace;
+}
+
+section .share label {
+  font-family: 'Fira Mono', monospace;
+  margin-right: 1rem;
 }
 /* Footer
    ========================================================================== */
@@ -224,36 +257,6 @@ footer {
   width: 60%;
 }
 
-.Input input[type="text"],
-.Input select,
-.Input textarea {
-  font-size: 0.9rem;
-  appearance: none;
-  background-color: transparent;
-  border-width: 0;
-  margin: 0;
-  outline: none;
-  padding: 0;
-  background-color: var(--input-background-color);
-  border-radius: 0.2rem;
-  box-sizing: border-box;
-  color: var(--input-foreground-color);
-  line-height: 1.7;
-  min-width: 0;
-  min-height: 2rem;
-  width: 100%;
-  padding: 0.2rem 0.4rem;
-}
-
-.Input select option {
-  color: black;
-}
-
-.Input input[type="checkbox"] {
-  transform: scale(1.3);
-  margin-top: 0.3rem;
-}
-
 /* CommandInput
    ========================================================================== */
 
@@ -275,6 +278,44 @@ footer {
   margin-right: 0.3rem;
 }
 
+/* Inputs
+   ========================================================================== */
+
+input[type="text"],
+select,
+textarea {
+  font-size: 0.9rem;
+  appearance: none;
+  background-color: transparent;
+  border-width: 0;
+  margin: 0;
+  outline: none;
+  padding: 0;
+  background-color: var(--input-background-color);
+  border-radius: 0.2rem;
+  box-sizing: border-box;
+  color: var(--input-foreground-color);
+  line-height: 1.7;
+  min-width: 0;
+  min-height: 2rem;
+  width: 100%;
+  padding: 0.2rem 0.4rem;
+}
+
+select option {
+  color: black;
+}
+
+input[type="checkbox"] {
+  transform: scale(1.3);
+  margin-top: 0.3rem;
+}
+
+input::selection,
+textarea::selection {
+  color: black;
+  background: var(--input-foreground-color);
+}
 
 /* Buttons
    ========================================================================== */
@@ -311,9 +352,6 @@ button.Refresh {
   width: 100%;
   margin-top: 0.5rem;
 }
-
-/* Select
-   ========================================================================== */
 
 /* Range
    ========================================================================== */
@@ -491,3 +529,12 @@ input[type=text].slider_value {
   margin-left: 1rem;
 }
 
+/* Simplebar
+   ========================================================================== */
+   
+.simplebar-track {
+  right: 0.6rem;
+}
+.simplebar-scrollbar::before {
+  background-color: white !important;
+}

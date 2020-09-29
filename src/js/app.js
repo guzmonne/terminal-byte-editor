@@ -8,9 +8,9 @@ function InputGroup({ title, children, name, isOpen, onToggle }) {
         { title }
         <div className="InputGroup__header-chevron"></div>
       </button>
-      <div className="InputGroup__container">
+      {isOpen && <div className="InputGroup__container">
         { children }
-      </div>
+      </div>}
     </div>
   );
 }
@@ -35,10 +35,7 @@ function StringInput(props) {
   const { onChange, value, multiline=true, tag, label } = props;
   return (
     <Input className="StringInput" {...props} label={ <StringInputLabel tag={ tag } label={label} /> }>
-      {multiline 
-        ? <textarea rows={value.split('\n').length} onChange={ onChange } value={ value }></textarea>
-        : <input type="text" onChange={ onChange } value={ value } />
-      }
+      <textarea rows={value.split('\n').length} onChange={ onChange } value={ value }></textarea>
     </Input>
   );
 }
@@ -70,7 +67,7 @@ function SelectInput(props) {
   return (
     <Input {...props}>
       <select value={ value } onChange={ handleOnChange }>
-        {options.map(option => <option value={ option }>{ option }</option>)}
+        {options.map(option => <option key={option} value={ option }>{ option }</option>)}
       </select>
     </Input>
   );
@@ -203,43 +200,50 @@ class App extends React.Component {
       url,
       toggle 
     } = this.state;
-    console.log(this.state);
     return (
       <React.Fragment>
         <header><h1>Terminal Byte Editor</h1></header>
         <article>
-          <form onSubmit={this.onRefreshIframeURL}>
-            <InputGroup title="Commands" isOpen={ toggle.commands } onToggle={ this.onToggle } name="commands">
-              {commands.map(([command, output], index) => (
-                <CommandInput 
-                  key={index}
-                  command={command}
-                  onChange={this.onChangeCommand}
-                  output={output}
-                  index={index}
-                  isLast={index === commands.length - 1}
-                />
-              ))}
-              <div className="AddRemoveCommands">
-                <button type="button" onClick={this.onAdd} className="AddRemoveCommands__add">+</button>
-                <button type="button" onClick={this.onRemove} className="AddRemoveCommands__remove">-</button>
-              </div>
-            </InputGroup>
-            <InputGroup title="Configuration" isOpen={ toggle.configuration } onToggle={ this.onToggle } name="configuration">
-              <BooleanInput label="Prompt" onChange={ this.onChangeInput } name="prompt" value={ prompt } />
-              <BooleanInput label="Highlight" onChange={ this.onChangeInput } name="highlight" value={ highlight } />
-              <BooleanInput label="Fit" onChange={ this.onChangeInput } name="fit" value={ fit } />
-              <RangeInput label="Padding" onChange={ this.onChangeInput } name="padding" value={ padding } />
-              <RangeInput label="Min. Size" onChange={ this.onChangeInput } name="minSize" value={ minSize } step="1" min="1" max="44" />
-              <RangeInput label="Size" onChange={ this.onChangeInput } name="size" value={ size } step="1" min="1" max="44" />
-              <RangeInput label="Max. Size" onChange={ this.onChangeInput } name="maxSize" value={ maxSize } step="1" min="1" max="44" />
-              <SelectInput label="Gradient" onChange={this.onChangeInput} name="gradient" value={ gradient } options={Object.keys(this.GRADIENTS)} />
-              <RangeInput label="Gradient Rot." onChange={ this.onChangeInput } name="gradientRot" value={ gradientRot } step="1" min="0" max="360" />
-            </InputGroup>
-            <button className="Refresh" type="submit">Refresh</button>
-          </form>
+          <div className="container">
+            <div className="overflow" data-simplebar>
+              <form onSubmit={this.onRefreshIframeURL}>
+                <InputGroup title="Commands" isOpen={ toggle.commands } onToggle={ this.onToggle } name="commands">
+                  {commands.map(([command, output], index) => (
+                    <CommandInput 
+                      key={index}
+                      command={command}
+                      onChange={this.onChangeCommand}
+                      output={output}
+                      index={index}
+                      isLast={index === commands.length - 1}
+                    />
+                  ))}
+                  <div className="AddRemoveCommands">
+                    <button type="button" onClick={this.onAdd} className="AddRemoveCommands__add">+</button>
+                    <button type="button" onClick={this.onRemove} className="AddRemoveCommands__remove">-</button>
+                  </div>
+                </InputGroup>
+                <InputGroup title="Configuration" isOpen={ toggle.configuration } onToggle={ this.onToggle } name="configuration">
+                  <BooleanInput label="Prompt" onChange={ this.onChangeInput } name="prompt" value={ prompt } />
+                  <BooleanInput label="Highlight" onChange={ this.onChangeInput } name="highlight" value={ highlight } />
+                  <BooleanInput label="Fit" onChange={ this.onChangeInput } name="fit" value={ fit } />
+                  <RangeInput label="Padding" onChange={ this.onChangeInput } name="padding" value={ padding } />
+                  <RangeInput label="Min. Size" onChange={ this.onChangeInput } name="minSize" value={ minSize } step="1" min="1" max="44" />
+                  <RangeInput label="Size" onChange={ this.onChangeInput } name="size" value={ size } step="1" min="1" max="44" />
+                  <RangeInput label="Max. Size" onChange={ this.onChangeInput } name="maxSize" value={ maxSize } step="1" min="1" max="44" />
+                  <SelectInput label="Gradient" onChange={this.onChangeInput} name="gradient" value={ gradient } options={Object.keys(this.GRADIENTS)} />
+                  <RangeInput label="Gradient Rot." onChange={ this.onChangeInput } name="gradientRot" value={ gradientRot } step="1" min="0" max="360" />
+                </InputGroup>
+                <button className="Refresh" type="submit">Refresh</button>
+              </form>
+            </div>
+          </div>
           <section>
             <iframe id="terminal-byte" src={url} title="Terminal Byte"></iframe>
+            <div className="share">
+              <label>Share: </label>
+              <input type="text" value={ url } readOnly/>
+            </div>
           </section>
         </article>
         <footer>Made with love by <a href="https://github.com/guzmonne">@guzmonne</a></footer>

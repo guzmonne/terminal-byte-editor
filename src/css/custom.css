@@ -72,7 +72,7 @@ article .overflow {
   flex: 1 0 auto;
   padding: 0;
   background-color: var(--background-color);
-  padding: 0 2rem 0 1rem;
+  padding: 0 1rem 0 1rem;
   overflow: auto;
 }
 
@@ -533,7 +533,7 @@ input[type=text].slider_value {
    ========================================================================== */
    
 .simplebar-track {
-  right: 0.6rem;
+  right: 0.1rem !important;
 }
 .simplebar-scrollbar::before {
   background-color: white !important;

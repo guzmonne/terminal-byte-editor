@@ -2,6 +2,7 @@
    ========================================================================== */
 :root {
   --min-height: 5rem;
+  --footer-height: 3rem;
   --background-color: black;
   --label-foreground-color: rgba(200,202,208,0.8);
   --input-background-color: rgba(200,202,208,0.2);
@@ -54,30 +55,30 @@ header h1 {
 article {
   display: flex;
   flex: 1 0 auto;
+  background-color: var(--background-color);
 }
 
-article .container {
-  position: relative;
-  height: calc(100vh - var(--min-height) * 2);
+/* Container
+   ========================================================================== */
+
+.container {
   width: 60%;
+  padding: 0 1rem 0 1rem;
+  display: flex;
+  flex-direction: column;
 }
 
-article .overflow {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+.container .overflow {
+  max-height: calc(100vh - 11.5rem);
   display: flex;
   flex: 1 0 auto;
-  padding: 0;
-  background-color: var(--background-color);
-  padding: 0 1rem 0 1rem;
   overflow: auto;
+  padding-right: 0.5rem;
 }
 
-article .container form {
-  width: 100%;
+.container .Refresh {
+  min-height: 3rem;
+  width: calc(100% - 0.5rem);
 }
 
 /* Iframe section
@@ -102,7 +103,7 @@ section .share {
   display: flex;
   align-items: center;
   max-height: 2rem;
-  margin-top: 0.5rem;
+  margin: 0.5rem 0;
   flex: 1;
   font-family: 'Fira Mono', monospace;
 }
@@ -115,8 +116,21 @@ section .share label {
    ========================================================================== */
 footer {
   background-color: black;
-  min-height: var(--min-height);
+  min-height: var(--footer-height);
   flex-shrink: 0;
+  padding: 1rem;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+footer svg.fa-heart path {
+  fill: red;
+}
+
+footer svg {
+  margin: 0 0.5rem;
 }
 
 /* InputGroup
@@ -348,11 +362,6 @@ button:focus, button:active {
   opacity: 0.8;
 }
 
-button.Refresh {
-  width: 100%;
-  margin-top: 0.5rem;
-}
-
 /* Range
    ========================================================================== */
 
@@ -531,10 +540,8 @@ input[type=text].slider_value {
 
 /* Simplebar
    ========================================================================== */
-   
-.simplebar-track {
-  right: 0.1rem !important;
-}
+
+
 .simplebar-scrollbar::before {
   background-color: white !important;
 }

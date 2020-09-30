@@ -1,4 +1,5 @@
 import React from 'react';
+import SimpleBar from 'simplebar-react';
 
 function InputGroup({ title, children, name, isOpen, onToggle }) {
   const handlOnToggle = React.useCallback(() => onToggle(name), [onToggle, name]);
@@ -83,6 +84,19 @@ function CommandInput({ onChange, command, output, index}) {
       <StringInput tag={`#${index}`} label="Command" value={command} onChange={handleCommandOnChange}/>
       <StringInput tag={`#${index}`} label="Output" value={output} onChange={handleOutputOnChange}/>
     </div>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="footer-container">
+      {'© Terminal Byte - Editor -- Made with  '}
+      <i className="fa fa-heart"></i>
+      <span>{' by Guzmán Monné -- Get in touch'}</span>
+      <a href="https://twitter.com/guzmonne"><i className="fa fa-twitter"></i></a>   
+      <span>{' or contribute'}</span>
+      <a href="https://github.com/guzmonne"><i className="fa fa-github"></i></a>   
+    </footer>
   );
 }
 
@@ -204,39 +218,32 @@ class App extends React.Component {
       <React.Fragment>
         <header><h1>Terminal Byte Editor</h1></header>
         <article>
-          <div className="container">
-            <div className="overflow" data-simplebar>
-              <form onSubmit={this.onRefreshIframeURL}>
-                <InputGroup title="Commands" isOpen={ toggle.commands } onToggle={ this.onToggle } name="commands">
-                  {commands.map(([command, output], index) => (
-                    <CommandInput 
-                      key={index}
-                      command={command}
-                      onChange={this.onChangeCommand}
-                      output={output}
-                      index={index}
-                      isLast={index === commands.length - 1}
-                    />
-                  ))}
-                  <div className="AddRemoveCommands">
-                    <button type="button" onClick={this.onAdd} className="AddRemoveCommands__add">+</button>
-                    <button type="button" onClick={this.onRemove} className="AddRemoveCommands__remove">-</button>
-                  </div>
-                </InputGroup>
-                <InputGroup title="Configuration" isOpen={ toggle.configuration } onToggle={ this.onToggle } name="configuration">
-                  <BooleanInput label="Prompt" onChange={ this.onChangeInput } name="prompt" value={ prompt } />
-                  <BooleanInput label="Highlight" onChange={ this.onChangeInput } name="highlight" value={ highlight } />
-                  <BooleanInput label="Fit" onChange={ this.onChangeInput } name="fit" value={ fit } />
-                  <RangeInput label="Padding" onChange={ this.onChangeInput } name="padding" value={ padding } />
-                  <RangeInput label="Min. Size" onChange={ this.onChangeInput } name="minSize" value={ minSize } step="1" min="1" max="44" />
-                  <RangeInput label="Size" onChange={ this.onChangeInput } name="size" value={ size } step="1" min="1" max="44" />
-                  <RangeInput label="Max. Size" onChange={ this.onChangeInput } name="maxSize" value={ maxSize } step="1" min="1" max="44" />
-                  <SelectInput label="Gradient" onChange={this.onChangeInput} name="gradient" value={ gradient } options={Object.keys(this.GRADIENTS)} />
-                  <RangeInput label="Gradient Rot." onChange={ this.onChangeInput } name="gradientRot" value={ gradientRot } step="1" min="0" max="360" />
-                </InputGroup>
-                <button className="Refresh" type="submit">Refresh</button>
-              </form>
-            </div>
+        <div className="container">
+          <form onSubmit={this.onRefreshIframeURL}>
+            <SimpleBar className="overflow">
+              <InputGroup title="Commands" isOpen={ toggle.commands } onToggle={ this.onToggle } name="commands">
+                {commands.map(([command, output], index) => (
+                  <CommandInput  key={index} command={command} onChange={this.onChangeCommand} output={output} index={index} />
+                ))}
+                <div className="AddRemoveCommands">
+                  <button type="button" onClick={this.onAdd} className="AddRemoveCommands__add">+</button>
+                  <button type="button" onClick={this.onRemove} className="AddRemoveCommands__remove">-</button>
+                </div>
+              </InputGroup>
+              <InputGroup title="Configuration" isOpen={ toggle.configuration } onToggle={ this.onToggle } name="configuration">
+                <BooleanInput label="Prompt" onChange={ this.onChangeInput } name="prompt" value={ prompt } />
+                <BooleanInput label="Highlight" onChange={ this.onChangeInput } name="highlight" value={ highlight } />
+                <BooleanInput label="Fit" onChange={ this.onChangeInput } name="fit" value={ fit } />
+                <RangeInput label="Padding" onChange={ this.onChangeInput } name="padding" value={ padding } />
+                <RangeInput label="Min. Size" onChange={ this.onChangeInput } name="minSize" value={ minSize } step="1" min="1" max="44" />
+                <RangeInput label="Size" onChange={ this.onChangeInput } name="size" value={ size } step="1" min="1" max="44" />
+                <RangeInput label="Max. Size" onChange={ this.onChangeInput } name="maxSize" value={ maxSize } step="1" min="1" max="44" />
+                <SelectInput label="Gradient" onChange={this.onChangeInput} name="gradient" value={ gradient } options={Object.keys(this.GRADIENTS)} />
+                <RangeInput label="Gradient Rot." onChange={ this.onChangeInput } name="gradientRot" value={ gradientRot } step="1" min="0" max="360" />
+              </InputGroup>
+            </SimpleBar>
+            <button className="Refresh" type="submit">Refresh</button>
+          </form>
           </div>
           <section>
             <iframe id="terminal-byte" src={url} title="Terminal Byte"></iframe>
@@ -246,7 +253,7 @@ class App extends React.Component {
             </div>
           </section>
         </article>
-        <footer>Made with love by <a href="https://github.com/guzmonne">@guzmonne</a></footer>
+        <Footer />
       </React.Fragment>
     )
   }

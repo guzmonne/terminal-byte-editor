@@ -1,5 +1,4 @@
-import 'simplebar';
-import 'simplebar/dist/simplebar.css';
+import 'simplebar/dist/simplebar.min.css';
 import './plugins.js';
 import React from 'react';
 import ReactDOM from 'react-dom';

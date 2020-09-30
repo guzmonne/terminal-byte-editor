@@ -123,6 +123,22 @@ section .share label {
   font-family: 'Fira Mono', monospace;
   margin-right: 1rem;
 }
+
+section .share button,
+section .share a {
+  margin-left: 0.5rem;
+}
+
+section .share a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+section .share button svg path,
+section .share a svg path{
+  fill: var(--background-color);
+}
 /* Footer
    ========================================================================== */
 footer {
@@ -345,7 +361,8 @@ textarea::selection {
 /* Buttons
    ========================================================================== */
 
-button {
+button,
+a.button {
   appearance: none;
   background-color: transparent;
   border-width: 0;
@@ -365,11 +382,15 @@ button {
   color: var(--background-color);
 }
 
-button:hover {
+button:hover,
+a.button:hover {
   opacity: 0.9;
 }
 
-button:focus, button:active {
+button:focus,
+a.button:focus,
+button:active,
+a.button:active {
   opacity: 0.8;
 }
 

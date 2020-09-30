@@ -1,5 +1,6 @@
 import React from 'react';
-import SimpleBar from 'simplebar-react';
+import SimpleBar from 'simplebar-react'
+import Clipboard from 'react-clipboard.js';;
 import logo from '../images/logo.svg';
 
 function InputGroup({ title, children, name, isOpen, onToggle }) {
@@ -250,7 +251,16 @@ class App extends React.Component {
             <iframe id="terminal-byte" src={url} title="Terminal Byte"></iframe>
             <div className="share">
               <label>Share: </label>
-              <input type="text" value={ url } readOnly/>
+              <input type="text" value={url} readOnly/>
+              <Clipboard data-clipboard-text={url}>
+                <i className="fa fa-clipboard"></i>
+              </Clipboard>
+              <Clipboard data-clipboard-text={url}>
+                <i className="fa fa-window-frame"></i>
+              </Clipboard>
+              <a className="button" alt="Terminal Byte direct link" target="_blank" href={url}>
+                <i className="fa fa-link"></i>
+              </a>
             </div>
           </section>
         </article>

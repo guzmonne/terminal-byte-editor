@@ -3,7 +3,7 @@
 :root {
   --min-height: 5rem;
   --footer-height: 3rem;
-  --background-color: black;
+  --background-color: #001d0c;
   --label-foreground-color: rgba(200,202,208,0.8);
   --input-background-color: rgba(200,202,208,0.2);
   --input-foreground-color: rgba(200,202,208,1);
@@ -28,8 +28,10 @@ html {
   font-size: 14px;
 }
 
-html, body {
-  height: 100%;
+body {
+  background: #141E30;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(45deg, #243B55, #141E30);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(45deg, #243B55, #141E30); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */  
 }
 
 main {
@@ -41,13 +43,22 @@ main {
 /* Header
    ========================================================================== */
 header {
-  background-color: black;
+  /*background-color: var(--background-color);*/
   height: var(--min-height);
   flex-shrink: 0;
 }
 
 header h1 {
   margin: 0;
+  padding: 1rem 2rem 1rem 2rem;
+  font-family: 'Fira Mono', monospace;
+  display: flex;
+  align-items: center;
+}
+
+header h1 img {
+  max-height: 3rem;
+  margin-right: 1rem;
 }
 
 /* Main
@@ -55,7 +66,7 @@ header h1 {
 article {
   display: flex;
   flex: 1 0 auto;
-  background-color: var(--background-color);
+  /*background-color: var(--background-color);*/
 }
 
 /* Container
@@ -85,7 +96,7 @@ article {
    ========================================================================== */
 section {
   width: 100%;
-  background-color: var(--background-color);
+  /*background-color: var(--background-color);*/
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -115,7 +126,7 @@ section .share label {
 /* Footer
    ========================================================================== */
 footer {
-  background-color: black;
+  /*background-color: var(--background-color);*/
   min-height: var(--footer-height);
   flex-shrink: 0;
   padding: 1rem;

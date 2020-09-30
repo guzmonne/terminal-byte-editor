@@ -1,5 +1,6 @@
 import React from 'react';
 import SimpleBar from 'simplebar-react';
+import logo from '../images/logo.svg';
 
 function InputGroup({ title, children, name, isOpen, onToggle }) {
   const handlOnToggle = React.useCallback(() => onToggle(name), [onToggle, name]);
@@ -142,13 +143,13 @@ class App extends React.Component {
         configuration: true,
       }
     };
-    this.createIframeURL = this.createIframeURL.bind(this);
-    this.onAdd = this.onAdd.bind(this);
-    this.onRemove = this.onRemove.bind(this);
-    this.onChangeCommand = this.onChangeCommand.bind(this);
-    this.onChangeInput = this.onChangeInput.bind(this);
+    this.createIframeURL    = this.createIframeURL.bind(this);
+    this.onAdd              = this.onAdd.bind(this);
+    this.onRemove           = this.onRemove.bind(this);
+    this.onChangeCommand    = this.onChangeCommand.bind(this);
+    this.onChangeInput      = this.onChangeInput.bind(this);
     this.onRefreshIframeURL = this.onRefreshIframeURL.bind(this);
-    this.onToggle = this.onToggle.bind(this);
+    this.onToggle           = this.onToggle.bind(this);
   }
 
   onAdd() {
@@ -216,7 +217,7 @@ class App extends React.Component {
     } = this.state;
     return (
       <React.Fragment>
-        <header><h1>Terminal Byte Editor</h1></header>
+        <header><h1><img alt="Terminal Byte Editor" src={logo} /><span>Terminal Byte Editor</span></h1></header>
         <article>
         <div className="container">
           <form onSubmit={this.onRefreshIframeURL}>

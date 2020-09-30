@@ -1,7 +1,9 @@
 import React from 'react';
 import SimpleBar from 'simplebar-react'
-import Clipboard from 'react-clipboard.js';;
+import Clipboard from 'react-clipboard.js';
 import logo from '../images/logo.svg';
+import Tippy from '@tippyjs/react';
+import 'tippy.js/dist/tippy.css'; // optional
 
 function InputGroup({ title, children, name, isOpen, onToggle }) {
   const handlOnToggle = React.useCallback(() => onToggle(name), [onToggle, name]);
@@ -252,15 +254,25 @@ class App extends React.Component {
             <div className="share">
               <label>Share: </label>
               <input type="text" value={url} readOnly/>
-              <Clipboard data-clipboard-text={url}>
-                <i className="fa fa-clipboard"></i>
-              </Clipboard>
-              <Clipboard data-clipboard-text={url}>
-                <i className="fa fa-window-frame"></i>
-              </Clipboard>
-              <a className="button" alt="Terminal Byte direct link" target="_blank" href={url}>
-                <i className="fa fa-link"></i>
-              </a>
+              <Tippy content="Copy">
+                <span>
+                  <Clipboard data-clipboard-text={url}>
+                    <i className="fa fa-clipboard"></i>
+                  </Clipboard>
+                </span>
+              </Tippy>
+              <Tippy content="Embed">
+                <span>
+                  <Clipboard data-clipboard-text={url}>
+                    <i className="fa fa-window-frame"></i>
+                  </Clipboard>
+                </span>
+              </Tippy>
+              <Tippy content="Open">
+                <a className="button" alt="Terminal Byte direct link" target="_blank" href={url}>
+                  <i className="fa fa-external-link"></i>
+                </a>
+              </Tippy>
             </div>
           </section>
         </article>

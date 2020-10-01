@@ -3,8 +3,6 @@ import SimpleBar from 'simplebar-react'
 import Clipboard from 'react-clipboard.js';
 import logo from '../images/logo.svg';
 import Tippy from '@tippyjs/react';
-import 'tippy.js/dist/tippy.css'; // optional
-import 'overlayscrollbars/css/OverlayScrollbars.css';
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
 
 function InputGroup({ title, children, name, isOpen, onToggle }) {
@@ -137,8 +135,6 @@ class App extends React.Component {
   };
 
   OVERLAY_SCROLLBARS_OPTIONS = {
-    //autoUpdate: true,
-    //className: "iframe-overflow",
     updateOnLoad: ['iframe'],
     scrollbars: {
       visibility: 'visible',

@@ -15,7 +15,7 @@
     "parcel-bundler": "^1.12.4"
   },
   "scripts": {
-    "test": "jest --watch",
+    "test": "jest --watchAll",
     "coverage": "jest --coverage",
     "dev": "parcel src/index.html",
     "build": "GOOGLE_ANALYTICS_ID=$(grep GOOGLE_ANALYTICS_ID .env | cut -d '=' -f2) BASE_URL=$(grep BASE_URL .env | cut -d '=' -f2) parcel build src/index.html",

@@ -51,9 +51,12 @@ header {
 header h1 {
   margin: 0;
   padding: 1rem 2rem 1rem 2rem;
-  font-family: 'Fira Mono', monospace;
   display: flex;
   align-items: center;
+}
+
+header h1 span{
+  font-family: 'Fira Mono', monospace;
 }
 
 header h1 img {

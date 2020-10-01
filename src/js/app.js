@@ -229,6 +229,10 @@ class App extends React.Component {
     this.setState({ url: this.createIframeURL(this.state) });
   }
 
+  createIframeHTML({url, iframeWidth, iframeHeight}) {
+    return `<iframe src="${url}" width="${iframeWidth}" height="${iframeHeight}"></iframe>`
+  }
+
   onToggle(key) {
     const state = this.state.toggle[key];
     this.setState({ toggle: {
@@ -316,7 +320,7 @@ class App extends React.Component {
                 </Tippy>
                 <Tippy content="Embed">
                   <span>
-                    <Clipboard data-clipboard-text={url}>
+                    <Clipboard data-clipboard-text={this.createIframeHTML({url, iframeHeight, iframeWidth})}>
                       <i className="fa fa-window-frame"></i>
                     </Clipboard>
                   </span>

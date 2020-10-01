@@ -19,7 +19,7 @@
     "coverage": "jest --coverage",
     "dev": "parcel src/index.html",
     "build": "GOOGLE_ANALYTICS_ID=$(grep GOOGLE_ANALYTICS_ID .env | cut -d '=' -f2) BASE_URL=$(grep BASE_URL .env | cut -d '=' -f2) parcel build src/index.html",
-    "postbuild": "cp src/browserconfig.xml src/favicon.ico src/humans.txt src/LICENSE.txt src/robots.txt dist"
+    "postbuild": "cp src/browserconfig.xml src/favicon.ico src/humans.txt src/robots.txt dist"
   },
   "jest": {
     "moduleNameMapper": {

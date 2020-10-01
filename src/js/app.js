@@ -4,6 +4,8 @@ import Clipboard from 'react-clipboard.js';
 import logo from '../images/logo.svg';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css'; // optional
+import 'overlayscrollbars/css/OverlayScrollbars.css';
+import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
 
 function InputGroup({ title, children, name, isOpen, onToggle }) {
   const handlOnToggle = React.useCallback(() => onToggle(name), [onToggle, name]);
@@ -37,10 +39,20 @@ function StringInputLabel({ tag, label }) {
 }
 
 function StringInput(props) {
-  const { onChange, value, multiline=true, tag, label } = props;
+  const { onChange, value, tag, label } = props;
   return (
     <Input className="StringInput" {...props} label={ <StringInputLabel tag={ tag } label={label} /> }>
       <textarea rows={value.split('\n').length} onChange={ onChange } value={ value }></textarea>
+    </Input>
+  );
+}
+
+function NumberInput(props) {
+  const { onChange, value, name } = props;
+  const handleOnChange = React.useCallback((e) => onChange(name, e.target.value), [onChange, name]);
+  return (
+    <Input className="NumberInput" {...props}>
+      <input type="number" onChange={ handleOnChange } value={ value } />
     </Input>
   );
 }
@@ -124,6 +136,16 @@ class App extends React.Component {
     dustyCactus:   ['#fcff9e', '#c67700']
   };
 
+  OVERLAY_SCROLLBARS_OPTIONS = {
+    //autoUpdate: true,
+    //className: "iframe-overflow",
+    updateOnLoad: ['iframe'],
+    scrollbars: {
+      visibility: 'visible',
+      autoHide: 'never',
+    }
+  }
+
   constructor(props) {
     super(props);
     const defaults = {
@@ -137,6 +159,9 @@ class App extends React.Component {
       fit: false,
       gradient: 'random',
       gradientRot: 0,
+      iframeWidth: 0,
+      iframeHeight: 0,
+      ratio: 40
     };
     this.state = {
       ...defaults,
@@ -146,6 +171,8 @@ class App extends React.Component {
         configuration: true,
       }
     };
+    this.iframeRef = React.createRef();
+    this.overflowRef = React.createRef();
     this.createIframeURL    = this.createIframeURL.bind(this);
     this.onAdd              = this.onAdd.bind(this);
     this.onRemove           = this.onRemove.bind(this);
@@ -153,6 +180,13 @@ class App extends React.Component {
     this.onChangeInput      = this.onChangeInput.bind(this);
     this.onRefreshIframeURL = this.onRefreshIframeURL.bind(this);
     this.onToggle           = this.onToggle.bind(this);
+  }
+
+  componentDidMount() {
+    this.setState({
+      iframeWidth: this.iframeRef.current.offsetWidth,
+      iframeHeight: this.iframeRef.current.offsetHeight,
+    });
   }
 
   onAdd() {
@@ -215,64 +249,84 @@ class App extends React.Component {
       size,
       minSize,
       maxSize,
+      iframeWidth,
+      iframeHeight,
       url,
-      toggle 
+      toggle,
+      ratio
     } = this.state;
     return (
       <React.Fragment>
         <header><h1><img alt="Terminal Byte Editor" src={logo} /><span>Terminal Byte Editor</span></h1></header>
         <article>
-        <div className="container">
-          <form onSubmit={this.onRefreshIframeURL}>
-            <SimpleBar className="overflow">
-              <InputGroup title="Commands" isOpen={ toggle.commands } onToggle={ this.onToggle } name="commands">
-                {commands.map(([command, output], index) => (
-                  <CommandInput  key={index} command={command} onChange={this.onChangeCommand} output={output} index={index} />
-                ))}
-                <div className="AddRemoveCommands">
-                  <button type="button" onClick={this.onAdd} className="AddRemoveCommands__add">+</button>
-                  <button type="button" onClick={this.onRemove} className="AddRemoveCommands__remove">-</button>
-                </div>
-              </InputGroup>
-              <InputGroup title="Configuration" isOpen={ toggle.configuration } onToggle={ this.onToggle } name="configuration">
-                <BooleanInput label="Prompt" onChange={ this.onChangeInput } name="prompt" value={ prompt } />
-                <BooleanInput label="Highlight" onChange={ this.onChangeInput } name="highlight" value={ highlight } />
-                <BooleanInput label="Fit" onChange={ this.onChangeInput } name="fit" value={ fit } />
-                <RangeInput label="Padding" onChange={ this.onChangeInput } name="padding" value={ padding } />
-                <RangeInput label="Min. Size" onChange={ this.onChangeInput } name="minSize" value={ minSize } step="1" min="1" max="44" />
-                <RangeInput label="Size" onChange={ this.onChangeInput } name="size" value={ size } step="1" min="1" max="44" />
-                <RangeInput label="Max. Size" onChange={ this.onChangeInput } name="maxSize" value={ maxSize } step="1" min="1" max="44" />
-                <SelectInput label="Gradient" onChange={this.onChangeInput} name="gradient" value={ gradient } options={Object.keys(this.GRADIENTS)} />
-                <RangeInput label="Gradient Rot." onChange={ this.onChangeInput } name="gradientRot" value={ gradientRot } step="1" min="0" max="360" />
-              </InputGroup>
-            </SimpleBar>
-            <button className="Refresh" type="submit">Refresh</button>
-          </form>
-          </div>
-          <section>
-            <iframe id="terminal-byte" src={url} title="Terminal Byte"></iframe>
-            <div className="share">
-              <label>Share: </label>
-              <input type="text" value={url} readOnly/>
-              <Tippy content="Copy">
-                <span>
-                  <Clipboard data-clipboard-text={url}>
-                    <i className="fa fa-clipboard"></i>
-                  </Clipboard>
-                </span>
-              </Tippy>
-              <Tippy content="Embed">
-                <span>
-                  <Clipboard data-clipboard-text={url}>
-                    <i className="fa fa-window-frame"></i>
-                  </Clipboard>
-                </span>
-              </Tippy>
-              <Tippy content="Open">
-                <a className="button" alt="Terminal Byte direct link" target="_blank" href={url}>
-                  <i className="fa fa-external-link"></i>
-                </a>
-              </Tippy>
+          <section className="container" style={{width: ratio + '%'}}>
+            <form onSubmit={this.onRefreshIframeURL}>
+              <SimpleBar className="overflow">
+                <InputGroup title="Commands" isOpen={ toggle.commands } onToggle={ this.onToggle } name="commands">
+                  {commands.map(([command, output], index) => (
+                    <CommandInput  key={index} command={command} onChange={this.onChangeCommand} output={output} index={index} />
+                  ))}
+                  <div className="AddRemoveCommands">
+                    <button type="button" onClick={this.onAdd} className="AddRemoveCommands__add">+</button>
+                    <button type="button" onClick={this.onRemove} className="AddRemoveCommands__remove">-</button>
+                  </div>
+                </InputGroup>
+                <InputGroup title="Configuration" isOpen={ toggle.configuration } onToggle={ this.onToggle } name="configuration">
+                  <BooleanInput label="Prompt" onChange={ this.onChangeInput } name="prompt" value={ prompt } />
+                  <BooleanInput label="Highlight" onChange={ this.onChangeInput } name="highlight" value={ highlight } />
+                  <BooleanInput label="Fit" onChange={ this.onChangeInput } name="fit" value={ fit } />
+                  <RangeInput label="Padding" onChange={ this.onChangeInput } name="padding" value={ padding } />
+                  <RangeInput label="Min. Size" onChange={ this.onChangeInput } name="minSize" value={ minSize } step="1" min="1" max="44" />
+                  <RangeInput label="Size" onChange={ this.onChangeInput } name="size" value={ size } step="1" min="1" max="44" />
+                  <RangeInput label="Max. Size" onChange={ this.onChangeInput } name="maxSize" value={ maxSize } step="1" min="1" max="44" />
+                  <SelectInput label="Gradient" onChange={this.onChangeInput} name="gradient" value={ gradient } options={Object.keys(this.GRADIENTS)} />
+                  <RangeInput label="Gradient Rot." onChange={ this.onChangeInput } name="gradientRot" value={ gradientRot } step="1" min="0" max="360" />
+                </InputGroup>
+                <InputGroup title="Iframe" isOpen={toggle.iframe} onToggle={this.onToggle} name="iframe">
+                  <NumberInput label="Width" onChange={ this.onChangeInput } name="iframeWidth" value={iframeWidth} />
+                  <NumberInput label="Height" onChange={ this.onChangeInput } name="iframeHeight" value={iframeHeight} />
+                </InputGroup>
+              </SimpleBar>
+              <button className="Refresh" type="submit">Refresh</button>
+            </form>
+          </section>
+          <section className="iframe" style={{width: 100 - ratio + '%'}}>
+            <div className="iframe-container">
+              <OverlayScrollbarsComponent options={this.OVERLAY_SCROLLBARS_OPTIONS}>
+                <iframe style={{
+                    width: iframeWidth ? iframeWidth + 'px' : '100%',
+                    height: iframeHeight ? iframeHeight + 'px' : '100%',
+                  }}
+                  ref={this.iframeRef} 
+                  id="terminal-byte" 
+                  src={url} 
+                  title="Terminal Byte"
+                  scrolling="yes"
+                />
+              </OverlayScrollbarsComponent>
+              <div className="iframe-share">
+                <label>Share: </label>
+                <input type="text" value={url} readOnly/>
+                <Tippy content="Copy">
+                  <span>
+                    <Clipboard data-clipboard-text={url}>
+                      <i className="fa fa-clipboard"></i>
+                    </Clipboard>
+                  </span>
+                </Tippy>
+                <Tippy content="Embed">
+                  <span>
+                    <Clipboard data-clipboard-text={url}>
+                      <i className="fa fa-window-frame"></i>
+                    </Clipboard>
+                  </span>
+                </Tippy>
+                <Tippy content="Open">
+                  <a className="button" alt="Terminal Byte direct link" target="_blank" href={url}>
+                    <i className="fa fa-external-link"></i>
+                  </a>
+                </Tippy>
+              </div>
             </div>
           </section>
         </article>

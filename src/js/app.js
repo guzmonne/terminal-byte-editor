@@ -169,6 +169,7 @@ class App extends React.Component {
     };
     this.iframeRef = React.createRef();
     this.overflowRef = React.createRef();
+    this.baseUrl = process.env.BASE_URL || 'http://localhost:1235';
     this.createIframeURL    = this.createIframeURL.bind(this);
     this.onAdd              = this.onAdd.bind(this);
     this.onRemove           = this.onRemove.bind(this);
@@ -176,6 +177,7 @@ class App extends React.Component {
     this.onChangeInput      = this.onChangeInput.bind(this);
     this.onRefreshIframeURL = this.onRefreshIframeURL.bind(this);
     this.onToggle           = this.onToggle.bind(this);
+    this.createIframeURL    = this.createIframeURL.bind(this);
   }
 
   componentDidMount() {
@@ -204,8 +206,7 @@ class App extends React.Component {
   }
 
   createIframeURL({ commands, gradient, gradientRot, prompt, highlight, fit, padding, size, minSize, maxSize }) {
-    const baseUrl = process.env.BASE_URL || 'http://localhost:1235';
-    return baseUrl +
+    return this.baseUrl +
       `?commands=${ commands.map(([command]) => utoa(command)).join(',').replace(/=/g, '') }` +
       `&outputs=${ commands.map(([_, output]) => utoa(output)).join(',').replace(/=/g, '') }` +
       (prompt ? '&prompt=true' : '') +

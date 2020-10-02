@@ -16,8 +16,13 @@ phases:
     commands:
       - ls -al
       - pwd
+      - export SRC_PATH=$(pwd)
       - cat package.json
-      - mv $(pwd) ../source && cd ../source
+      - mkdir -p ../source
+      - cd ..
+      - ls -al
+      - mv $SRC_PATH source
+      - cd source
       - ls -al
       - pwd
       - cat src/js/App.js

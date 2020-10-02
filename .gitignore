@@ -4,3 +4,5 @@ dist
 coverage
 .cache
 .env
+.DS_Cache
+.DS_Store

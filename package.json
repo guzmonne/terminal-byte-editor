@@ -12,6 +12,7 @@
     "@types/overlayscrollbars": "^1.12.0",
     "autoprefixer": "^9.8.6",
     "babel-jest": "^26.3.0",
+    "cli-real-favicon": "^0.0.8",
     "jest": "^26.4.2",
     "parcel-bundler": "^1.12.4",
     "postcss-modules": "^3.2.2"
@@ -23,7 +24,9 @@
     "dev": "parcel src/index.html",
     "prebuild": "rm -Rf dist",
     "build": "parcel build src/index.html",
-    "postbuild": "cp src/browserconfig.xml src/favicon.ico src/humans.txt src/robots.txt dist"
+    "postbuild": "cp src/browserconfig.xml src/favicon.ico src/humans.txt src/robots.txt dist",
+    "favicon": "real-favicon generate faviconDescription.json faviconData.json src",
+    "postfavicon": "real-favicon inject faviconData.json src *.html"
   },
   "jest": {
     "moduleNameMapper": {

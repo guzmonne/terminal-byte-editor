@@ -4,7 +4,7 @@ import Clipboard from 'react-clipboard.js';
 import Tippy from '@tippyjs/react';
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
 
-import logo from '../images/logo.svg';
+import logo from '../images/logo.png';
 import {InputGroup} from './InputGroup/';
 import {NumberInput, BooleanInput, RangeInput, SelectInput, CommandInput} from './Input/';
 import {AddRemoveButtons} from './AddRemoveButtons/'

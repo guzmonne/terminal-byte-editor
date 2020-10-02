@@ -10,7 +10,7 @@
     "@babel/preset-env": "^7.11.5",
     "@babel/preset-react": "^7.10.4",
     "@types/overlayscrollbars": "^1.12.0",
-    "autoprefixer": "^10.0.1",
+    "autoprefixer": "^9.8.6",
     "babel-jest": "^26.3.0",
     "jest": "^26.4.2",
     "parcel-bundler": "^1.12.4",
@@ -20,6 +20,7 @@
     "test": "jest --watchAll",
     "coverage": "jest --coverage",
     "dev": "parcel src/index.html",
+    "prebuild": "rm -Rf dist",
     "build": "parcel build src/index.html",
     "postbuild": "cp src/browserconfig.xml src/favicon.ico src/humans.txt src/robots.txt dist"
   },

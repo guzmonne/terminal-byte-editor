@@ -14,6 +14,8 @@ phases:
       - yarn install
   build:
     commands:
+      # Workaround for Parcel Bug
+      - rm -Rf yarn.lock node_modules
       - yarn build
 
 artifacts:

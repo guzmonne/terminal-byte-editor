@@ -16,7 +16,11 @@ phases:
     commands:
       - ls -al
       - pwd
-      - cat ./src/js/App.js
+      - cat package.json
+      - mv $(pwd) ../source && cd ../source
+      - ls -al
+      - pwd
+      - cat src/js/App.js
       - yarn build
 
 artifacts:

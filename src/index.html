@@ -38,6 +38,10 @@
 <body>
   <main id="root"></main>
   <!-- Add your site or application content here -->
+  <script type="text/javascript">
+    window.GOOGLE_ANALYTICS_ID = process.env.GOOGLE_ANALYTICS_ID;
+    window.BASE_URL = process.env.BASE_URL;
+  </script>
   <script src="https://kit.fontawesome.com/7cc11591a0.js" crossorigin="anonymous"></script>
   <script src="js/plugins.js"></script>
   <script src="js/index.js"></script>
@@ -45,12 +49,12 @@
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-179387636-1"></script>
   <script>
-    if (process.env.GOOGLE_ANALYTICS_ID) {
+    if (window.GOOGLE_ANALYTICS_ID) {
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
 
-      gtag('config', process.env.GOOGLE_ANALYTICS_ID);
+      gtag('config', window.GOOGLE_ANALYTICS_ID);
     }
   </script>
 

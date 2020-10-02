@@ -15,7 +15,8 @@
     "cli-real-favicon": "^0.0.8",
     "jest": "^26.4.2",
     "parcel-bundler": "^1.12.4",
-    "postcss-modules": "^3.2.2"
+    "postcss-modules": "^3.2.2",
+    "prop-types": "^15.7.2"
   },
   "scripts": {
     "test": "jest --watchAll",
@@ -24,7 +25,7 @@
     "dev": "parcel src/index.html",
     "prebuild": "rm -Rf dist",
     "build": "parcel build src/index.html",
-    "postbuild": "cp src/browserconfig.xml src/favicon.ico src/humans.txt ../LICENSE src/robots.txt dist",
+    "postbuild": "cp src/browserconfig.xml src/favicon.ico src/humans.txt LICENSE src/robots.txt dist",
     "favicon": "real-favicon generate faviconDescription.json faviconData.json src",
     "postfavicon": "real-favicon inject faviconData.json src *.html"
   },
@@ -54,7 +55,6 @@
     "@tippyjs/react": "^4.2.0",
     "overlayscrollbars": "^1.10.0",
     "overlayscrollbars-react": "^0.2.2",
-    "prop-types": "^15.7.2",
     "react": "^16.4.0",
     "react-clipboard.js": "^2.0.16",
     "react-dom": "^16.13.1",

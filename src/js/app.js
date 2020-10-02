@@ -236,7 +236,6 @@ class App extends React.Component {
 
 export default App;
 
-
 /**
  * Unicode to ASCII (encode data to Base64)
  * @param {string} data

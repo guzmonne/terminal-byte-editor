@@ -1,0 +1,14 @@
+
+/* AddRemoveCommands
+    ========================================================================== */
+.AddRemoveButtons {
+  display: flex;
+  width: 60%;
+  margin-left: 40%;
+  font-size: 1.5rem;
+  align-items: center;
+}
+
+.AddRemoveButtons button {
+  margin-right: 0.3rem;
+}

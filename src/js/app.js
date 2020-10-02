@@ -1,118 +1,13 @@
 import React from 'react';
 import SimpleBar from 'simplebar-react'
 import Clipboard from 'react-clipboard.js';
-import logo from '../images/logo.svg';
 import Tippy from '@tippyjs/react';
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
 
-function InputGroup({ title, children, name, isOpen, onToggle }) {
-  const handlOnToggle = React.useCallback(() => onToggle(name), [onToggle, name]);
-  return (
-    <div className={`InputGroup ${isOpen === true ? 'InputGroup__opened' : ''}`}>
-      <button type="button" className="InputGroup__header" onClick={handlOnToggle}>
-        { title }
-        <div className="InputGroup__header-chevron"></div>
-      </button>
-      {isOpen && <div className="InputGroup__container">
-        { children }
-      </div>}
-    </div>
-  );
-}
-
-function Input(props) {
-  const { label, children } = props;
-  return (
-    <div className="Input StringInput">
-      <label>{ label }</label>
-      <div className="Input__container">
-        { children }
-      </div>
-    </div>
-  );
-}
-
-function StringInputLabel({ tag, label }) {
-  return <>{ tag !== undefined && <span>{tag}</span> }{ label }</>
-}
-
-function StringInput(props) {
-  const { onChange, value, tag, label } = props;
-  return (
-    <Input className="StringInput" {...props} label={ <StringInputLabel tag={ tag } label={label} /> }>
-      <textarea rows={value.split('\n').length} onChange={ onChange } value={ value }></textarea>
-    </Input>
-  );
-}
-
-function NumberInput(props) {
-  const { onChange, value, name } = props;
-  const handleOnChange = React.useCallback((e) => onChange(name, e.target.value), [onChange, name]);
-  return (
-    <Input className="NumberInput" {...props}>
-      <input type="number" onChange={ handleOnChange } value={ value } />
-    </Input>
-  );
-}
-
-function BooleanInput(props) {
-  const { value, onChange, name } = props;
-  const handleOnChange = React.useCallback((e) => onChange(name, e.target.checked), [onChange, name]);
-  return (
-    <Input {...props}>
-      <input type="checkbox" checked={ value } onChange={ handleOnChange } />
-    </Input>
-  );
-}
-
-function RangeInput(props) {
-  const { value, onChange, name, step=0.5, min=0, max=10 } = props;
-  const handleOnChange = React.useCallback((e) => onChange(name, e.target.value), [onChange, name]);
-  return (
-    <Input {...props}>
-      <input className="slider" type="range" step={ step } min={ min } max={ max }value={ value } onChange={ handleOnChange } />
-      <input className="slider_value" type="text" value={ value } onChange={ handleOnChange } />
-    </Input>
-  );
-}
-
-function SelectInput(props) {
-  const { value, onChange, name, options } = props;
-  const handleOnChange = React.useCallback((e) => onChange(name, e.target.value), [onChange, name]);
-  return (
-    <Input {...props}>
-      <select value={ value } onChange={ handleOnChange }>
-        {options.map(option => <option key={option} value={ option }>{ option }</option>)}
-      </select>
-    </Input>
-  );
-}
-
-
-function CommandInput({ onChange, command, output, index}) {
-  const handleCommandOnChange = React.useCallback((e) => onChange(index, [e.target.value, output]), [index, onChange, output]);
-  const handleOutputOnChange = React.useCallback((e) => onChange(index, [command, e.target.value]), [index, onChange, command]);
-
-  return (
-    <div className="CommandInput">
-      <StringInput tag={`#${index}`} label="Command" value={command} onChange={handleCommandOnChange}/>
-      <StringInput tag={`#${index}`} label="Output" value={output} onChange={handleOutputOnChange}/>
-    </div>
-  );
-}
-
-function Footer() {
-  return (
-    <footer className="footer-container">
-      {'© Terminal Byte - Editor -- Made with  '}
-      <i className="fa fa-heart"></i>
-      <span>{' by Guzmán Monné -- Get in touch'}</span>
-      <a href="https://twitter.com/guzmonne"><i className="fa fa-twitter"></i></a>   
-      <span>{' or contribute'}</span>
-      <a href="https://github.com/guzmonne"><i className="fa fa-github"></i></a>   
-    </footer>
-  );
-}
+import logo from '../images/logo.svg';
+import {InputGroup} from './InputGroup/';
+import {NumberInput, BooleanInput, RangeInput, SelectInput, CommandInput} from './Input/';
+import {AddRemoveButtons} from './AddRemoveButtons/'
 
 class App extends React.Component {
   GRADIENTS = {
@@ -265,21 +160,18 @@ class App extends React.Component {
                   {commands.map(([command, output], index) => (
                     <CommandInput  key={index} command={command} onChange={this.onChangeCommand} output={output} index={index} />
                   ))}
-                  <div className="AddRemoveCommands">
-                    <button type="button" onClick={this.onAdd} className="AddRemoveCommands__add">+</button>
-                    <button type="button" onClick={this.onRemove} className="AddRemoveCommands__remove">-</button>
-                  </div>
+                  <AddRemoveButtons onAdd={this.onAdd} onRemove={this.onRemove} />
                 </InputGroup>
                 <InputGroup title="Configuration" isOpen={ toggle.configuration } onToggle={ this.onToggle } name="configuration">
                   <BooleanInput label="Prompt" onChange={ this.onChangeInput } name="prompt" value={ prompt } />
                   <BooleanInput label="Highlight" onChange={ this.onChangeInput } name="highlight" value={ highlight } />
                   <BooleanInput label="Fit" onChange={ this.onChangeInput } name="fit" value={ fit } />
                   <RangeInput label="Padding" onChange={ this.onChangeInput } name="padding" value={ padding } />
-                  <RangeInput label="Min. Size" onChange={ this.onChangeInput } name="minSize" value={ minSize } step="1" min="1" max="44" />
-                  <RangeInput label="Size" onChange={ this.onChangeInput } name="size" value={ size } step="1" min="1" max="44" />
-                  <RangeInput label="Max. Size" onChange={ this.onChangeInput } name="maxSize" value={ maxSize } step="1" min="1" max="44" />
+                  <RangeInput label="Min. Size" onChange={ this.onChangeInput } name="minSize" value={ minSize } step={1} min={1} max={100} />
+                  <RangeInput label="Size" onChange={ this.onChangeInput } name="size" value={ size } step={1} min={1} max={100} />
+                  <RangeInput label="Max. Size" onChange={ this.onChangeInput } name="maxSize" value={ maxSize } step={1} min={1} max={100} />
                   <SelectInput label="Gradient" onChange={this.onChangeInput} name="gradient" value={ gradient } options={Object.keys(this.GRADIENTS)} />
-                  <RangeInput label="Gradient Rot." onChange={ this.onChangeInput } name="gradientRot" value={ gradientRot } step="1" min="0" max="360" />
+                  <RangeInput label="Gradient Rot." onChange={ this.onChangeInput } name="gradientRot" value={ gradientRot } step={1} min={0} max={360} />
                 </InputGroup>
                 <InputGroup title="Iframe" isOpen={toggle.iframe} onToggle={this.onToggle} name="iframe">
                   <NumberInput label="Width" onChange={ this.onChangeInput } name="iframeWidth" value={iframeWidth} />
@@ -329,7 +221,14 @@ class App extends React.Component {
             </div>
           </section>
         </article>
-        <Footer />
+        <footer className="footer-container">
+          {'© Terminal Byte - Editor -- Made with  '}
+          <i className="fa fa-heart"></i>
+          <span>{' by Guzmán Monné -- Get in touch'}</span>
+          <a href="https://twitter.com/guzmonne"><i className="fa fa-twitter"></i></a>   
+          <span>{' or contribute'}</span>
+          <a href="https://github.com/guzmonne"><i className="fa fa-github"></i></a>   
+        </footer>
       </React.Fragment>
     )
   }
@@ -337,14 +236,6 @@ class App extends React.Component {
 
 export default App;
 
-/**
- * ASCII to Unicode (decode Base64 to original data)
- * @param {string} b64
- * @return {string}
- */
-function atou(b64) {
-  return decodeURIComponent(escape(atob(b64)));
-}
 
 /**
  * Unicode to ASCII (encode data to Base64)

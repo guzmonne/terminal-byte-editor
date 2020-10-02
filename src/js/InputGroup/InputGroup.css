@@ -1,0 +1,88 @@
+/* InputGroup
+   ========================================================================== */
+   
+   .InputGroup {
+    transform: none;
+    overflow: visible;
+    transition: height .2s ease-in-out,opacity .2s linear .2s,padding .2s ease-in-out;
+    background-color: var(--input-background-color);
+    border-radius: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .InputGroup.InputGroup__opened {
+    opacity: 1;
+    transform: none;
+    overflow: visible;
+    transition: height .2s ease-in-out,opacity .2s linear .2s,padding .2s ease-in-out;
+    background-color: var(--input-background-color);
+    border-radius: 0.5rem;
+  }
+      
+  .InputGroup * {
+    font-family: 'Fira Mono', monospace;
+  }
+  
+  .InputGroup .InputGroup__header {
+    appearance: none;
+    background-color: transparent;
+    border-width: 0;
+    font-size: inherit;
+    font-weight: inherit;
+    margin: 0;
+    outline: none;
+    padding: 0;
+    background-color: var(--folder-background-color);
+    color: var(--folder-foreground-color);
+    cursor: pointer;
+    display: block;
+    height: 2.5rem;
+    line-height: 1.5rem;
+    overflow: hidden;
+    padding-left: 2rem;
+    position: relative;
+    text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+    transition: border-radius .2s ease-in-out .2s;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+  }
+  
+  .InputGroup .InputGroup__header-chevron {
+    background: linear-gradient(to left, var(--folder-foreground-color), var(--folder-foreground-color) 2px, transparent 2px, transparent 4px, var(--folder-foreground-color) 4px);
+    border-radius: 2px;
+    bottom: 0;
+    content: '';
+    display: block;
+    height: 6px;
+    left: 0.8rem;
+    margin: auto;
+    position: absolute;
+    top: 0;
+    width: 6px;
+    transform: scale(1.8);
+    transition: transform 0.2s linear;
+  }
+  
+  .InputGroup.InputGroup__opened .InputGroup__header-chevron {
+    transform: scale(1.8) rotate(90deg);
+    transition: transform 0.2s linear;
+  }
+  
+  .InputGroup .InputGroup__container {
+    padding: 0;
+    opacity: 0;
+    height: 0;
+    transition: none;
+  }
+  
+  .InputGroup.InputGroup__opened .InputGroup__container {
+    padding: 0.5rem;
+    opacity: 1;
+    height: auto;
+    padding: 0.5rem;
+    transition: opacity 0.2s linear;
+  }
+  

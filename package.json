@@ -19,6 +19,7 @@
   "scripts": {
     "test": "jest --watchAll",
     "coverage": "jest --coverage",
+    "predev": "rm -Rf dist",
     "dev": "parcel src/index.html",
     "prebuild": "rm -Rf dist",
     "build": "parcel build src/index.html",
@@ -50,6 +51,7 @@
     "@tippyjs/react": "^4.2.0",
     "overlayscrollbars": "^1.10.0",
     "overlayscrollbars-react": "^0.2.2",
+    "prop-types": "^15.7.2",
     "react": "^16.4.0",
     "react-clipboard.js": "^2.0.16",
     "react-dom": "^16.13.1",

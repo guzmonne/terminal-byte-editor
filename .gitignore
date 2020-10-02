@@ -6,3 +6,4 @@ coverage
 .env
 .DS_Cache
 .DS_Store
+.parcel-cache

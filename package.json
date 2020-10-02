@@ -51,5 +51,16 @@
     "react-clipboard.js": "^2.0.16",
     "react-dom": "^16.13.1",
     "simplebar-react": "^2.3.0"
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {
+        "overrideBrowserslist": [
+          "> 1%",
+          "last 4 versions",
+          "ie >= 9"
+        ]
+      }
+    }
   }
 }

@@ -18,10 +18,9 @@ phases:
       - pwd
       - export SRC_PATH=$(pwd)
       - cat package.json
-      - mkdir -p ../source
       - cd ..
       - ls -al
-      - mv $SRC_PATH source
+      - mv src source
       - cd source
       - ls -al
       - pwd

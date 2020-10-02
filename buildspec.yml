@@ -14,19 +14,6 @@ phases:
       - yarn install
   build:
     commands:
-      - ls -al
-      - pwd
-      - cat package.json
-      - cd ..
-      - ls -al
-      - mv src source
-      - cd source
-      - ls -al
-      - pwd
-      - cd src/js
-      - ls -al
-      - cat ./App.js
-      - cd ../..
       - yarn build
 
 artifacts:

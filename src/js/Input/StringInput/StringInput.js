@@ -6,9 +6,10 @@ import {StringInputLabel} from './StringInputLabel.js';
 
 export function StringInput(props) {
   const { onChange, value, tag, label } = props;
+  const rows = React.useMemo(() => value.split('\n').length, [value]);
   return (
     <Input className="StringInput" {...props} label={ <StringInputLabel tag={ tag } label={label} /> }>
-      <textarea rows={value.split('\n').length} onChange={ onChange } value={ value }></textarea>
+      <textarea rows={rows} onChange={ onChange } value={ value }></textarea>
     </Input>
   );
 }

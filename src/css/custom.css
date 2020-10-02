@@ -147,6 +147,10 @@ textarea {
   padding: 0.2rem 0.4rem;
 }
 
+textarea {
+  resize: vertical;
+}
+
 select option {
   color: black;
 }

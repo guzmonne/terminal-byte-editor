@@ -12,6 +12,10 @@
   font-family: 'Fira Mono', monospace;
 }
 
+.Input option {
+  font-family: sans-serif, system;
+}
+
 .Input label {
   color: var(--label-foreground-color);
   flex: 1;

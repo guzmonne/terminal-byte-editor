@@ -16,7 +16,6 @@ phases:
     commands:
       - ls -al
       - pwd
-      - export SRC_PATH=$(pwd)
       - cat package.json
       - cd ..
       - ls -al
@@ -27,6 +26,7 @@ phases:
       - cd src/js
       - ls -al
       - cat ./App.js
+      - cd ../..
       - yarn build
 
 artifacts:

@@ -26,6 +26,7 @@
 
 html {
   font-size: 14px;
+  overflow: hidden;
 }
 
 body {
@@ -373,16 +374,24 @@ input[type=text].slider_value {
   margin-left: 1rem;
 }
 
+section .iframe {
+  display: flex;
+  flex-direction: column;
+}
 
-section .iframe-container {
+.iframe .iframe-container {
+  flex: 0 1 auto;
+  display: flex;
+  flex-direction: column;
   padding: 0 1rem;
 }
 
-section .iframe-container > div {
+.iframe-container div:first-child {
   max-height: calc(100vh - 11.5rem);
+  height: calc(100vh - 11.5rem);
 }
 
-section .iframe-share {
+.iframe-container .iframe-share {
   display: flex;
   align-items: center;
   max-height: 2rem;
@@ -392,23 +401,23 @@ section .iframe-share {
   width: calc(100%);
 }
 
-section .iframe-share label {
+.iframe-share label {
   font-family: 'Fira Mono', monospace;
   margin-right: 1rem;
 }
 
-section .iframe-share button,
-section .iframe-share a {
+.iframe-share button,
+.iframe-share a {
   margin-left: 0.5rem;
 }
 
-section .iframe-share a {
+.iframe-share a {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-section .iframe-share button svg path,
-section .iframe-share a svg path{
+.iframe-share button svg path,
+.iframe-share a svg path{
   fill: var(--background-color);
 }

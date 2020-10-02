@@ -20,7 +20,7 @@
     "test": "jest --watchAll",
     "coverage": "jest --coverage",
     "predev": "rm -Rf dist",
-    "dev": "BASE_URL=http://localhost:1235 parcel src/index.html",
+    "dev": "parcel src/index.html",
     "prebuild": "rm -Rf dist",
     "build": "parcel build src/index.html",
     "postbuild": "cp src/browserconfig.xml src/favicon.ico src/humans.txt src/robots.txt dist"

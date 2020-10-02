@@ -9,7 +9,7 @@ import {InputGroup} from './InputGroup/';
 import {NumberInput, BooleanInput, RangeInput, SelectInput, CommandInput} from './Input/';
 import {AddRemoveButtons} from './AddRemoveButtons/'
 
-class App extends React.Component {
+export class App extends React.Component {
   GRADIENTS = {
     random:        [],
     vitalOcean:    ['#1CB5E0', '#000851'],
@@ -233,8 +233,6 @@ class App extends React.Component {
     )
   }
 }
-
-export default App;
 
 /**
  * Unicode to ASCII (encode data to Base64)

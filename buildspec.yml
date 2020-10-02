@@ -24,7 +24,9 @@ phases:
       - cd source
       - ls -al
       - pwd
-      - cat src/js/App.js
+      - cd src
+      - ls -al
+      - cat js/App.js
       - yarn build
 
 artifacts:

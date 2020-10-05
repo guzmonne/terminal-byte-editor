@@ -8,7 +8,7 @@ export function NumberInput(props) {
   const handleOnChange = React.useCallback((e) => onChange(name, e.target.value), [onChange, name]);
   return (
     <Input className="NumberInput" {...props}>
-      <input type="number" onChange={ handleOnChange } value={ value } />
+      <input id={name} type="number" onChange={ handleOnChange } value={ value } />
     </Input>
   );
 }

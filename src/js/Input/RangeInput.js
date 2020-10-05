@@ -9,7 +9,7 @@ export function RangeInput(props) {
   return (
     <Input {...props}>
       <input className="slider" type="range" step={ step } min={ min } max={ max }value={ value } onChange={ handleOnChange } />
-      <input className="slider_value" type="text" value={ value } onChange={ handleOnChange } />
+      <input id={name} className="slider_value" type="text" value={ value } onChange={ handleOnChange } />
     </Input>
   );
 }

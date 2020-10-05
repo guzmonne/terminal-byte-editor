@@ -5,11 +5,11 @@ import {Input} from '../Input.js';
 import {StringInputLabel} from './StringInputLabel.js';
 
 export function StringInput(props) {
-  const { onChange, value, tag, label } = props;
+  const { onChange, value, tag, label, name } = props;
   const rows = React.useMemo(() => value.split('\n').length, [value]);
   return (
     <Input className="StringInput" {...props} label={ <StringInputLabel tag={ tag } label={label} /> }>
-      <textarea rows={rows} onChange={ onChange } value={ value }></textarea>
+      <textarea id={name} rows={rows} onChange={ onChange } value={ value }></textarea>
     </Input>
   );
 }

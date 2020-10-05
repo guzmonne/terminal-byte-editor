@@ -9,8 +9,8 @@ export function CommandInput({ onChange, command, output, index}) {
 
   return (
     <div className="CommandInput">
-      <StringInput tag={`#${index}`} label="Command" value={command} onChange={handleCommandOnChange}/>
-      <StringInput tag={`#${index}`} label="Output" value={output} onChange={handleOutputOnChange}/>
+      <StringInput tag={`#${index}`} label="Command" value={command} onChange={handleCommandOnChange} name={`command#${index}`}/>
+      <StringInput tag={`#${index}`} label="Output" value={output} onChange={handleOutputOnChange} name={`output#${index}`}/>
     </div>
   );
 }

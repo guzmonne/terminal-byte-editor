@@ -8,7 +8,7 @@ export function SelectInput(props) {
   const handleOnChange = React.useCallback((e) => onChange(name, e.target.value), [onChange, name]);
   return (
     <Input {...props}>
-      <select value={ value } onChange={ handleOnChange }>
+      <select id={name} value={ value } onChange={ handleOnChange }>
         {options.map(option => <option key={option} value={ option }>{ option }</option>)}
       </select>
     </Input>

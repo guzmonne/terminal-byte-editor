@@ -8,7 +8,7 @@ export function BooleanInput(props) {
   const handleOnChange = React.useCallback((e) => onChange(name, e.target.checked), [onChange, name]);
   return (
     <Input {...props}>
-      <input type="checkbox" checked={ value } onChange={ handleOnChange } />
+      <input id={name} type="checkbox" checked={ value } onChange={ handleOnChange } />
     </Input>
   );
 }

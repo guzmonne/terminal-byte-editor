@@ -50,7 +50,7 @@
   },
   "dependencies": {
     "@tippyjs/react": "^4.2.0",
-    "overlayscrollbars": "^1.10.0",
+    "overlayscrollbars": "^1.13.1",
     "overlayscrollbars-react": "^0.2.2",
     "react": "^16.4.0",
     "react-clipboard.js": "^2.0.16",
